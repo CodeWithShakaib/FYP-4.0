@@ -1,0 +1,72 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;    
+}
+tr
+{
+    font-size: 20px;
+}
+</style>
+</head>
+<body>
+
+
+<table style="width:80%;">
+  <tr style="font-size: x-large;">
+    <th style="width: 10%;">Course Name</th>
+    <th style="width: 70%;">Code</th>
+  </tr>
+  <tr >
+    <td>CS</td>
+    <td><a href="#">CS 205</a>  <a href="#">CS 205</a>  <a href="#">CS 205</a>  <a href="#">CS 205</a>  <a href="#">CS 205</a>  <a href="#">CS 205</a></td>
+    
+  </tr>
+</table>
+
+</body>
+</html> -->
+
+
+{% extends "layout.html" %} {% block content %}
+
+<div id="carouselExampleControls" class="carousel slide container" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item">
+      <div class="row">
+        {
+          "count":0
+          "first": True
+        }
+        {%for i in len(relatedProducts) %}
+         {% if count <=3 and first== True %}
+
+
+        <form action="pd/{{relatedProducts[i][0]}}" method=""></form>
+        <div class="col-md-3 text-center">
+          <img class="img-thumbnail" class="" src="{{ url_for('static',filename='{{relatedProducts[i][10]}}')}}" />
+          <b>{{relatedProducts[i][1]}}</b><br />
+          <label>Rs.{{relatedProducts[i][2]}}</label><br />
+          <button style="
+                border: none;
+                background-color: #45ce30;
+                color: white;
+                width: 200px;
+                padding: 5px;
+              ">
+            <b>view</b>
+          </button>
+        </div>
+        <form>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,211 @@
+{% extends "layout.html" %} {% block content %}
+<style>
+  table {
+    counter-reset: section;
+  }
+
+  .count:before {
+    counter-increment: section;
+    content: counter(section);
+  }
+</style>
+
+<div class="mt-5 container">
+  <h5 class="" style="font-weight: bolder;">
+    Yours Products
+  </h5>
+  <label>Products that you add to cart.</label>
+
+  <table class="table table-striped mb-5">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Products</th>
+        <th>Discount</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if carditems|length != 0 %} {% for i in carditems %}
+      <tr>
+        <td class="count"></td>
+        <td>
+          <div class="media">
+            <img
+              class="mr-3"
+              src="{{ url_for('static',filename=i[5])}}"
+              width="20%"
+              alt="Generic placeholder image"
+            />
+            <div class="media-body">
+              <b class="mt-0">{{i[1]}}</b><br />
+              <label>{{i[4]}}</label><br />
+              <b>Rs. {{i[2]}}</b><br />
+              <a href="#" style="text-decoration: none;"
+                ><img width="20px" src="static/icons/eye.png"
+              /></a>
+            </div>
+          </div>
+          <br />
+        </td>
+        <td><h3>Rs. {{i[3]}}</h3></td>
+        <td>
+          <a href="/cart" style="text-decoration: none;"
+            ><img src="static/icons/delete.png" width="25px"
+          /></a>
+        </td>
+      </tr>
+      {% endfor %} {% else %}
+      <h2 class="text-center">{{cardItemNotExist}}</h2>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col text-center">
+      <form action="/cart" method="POST">
+        <h5 class="mb-3">Delivery Information</h5>
+        <input
+          type="text"
+          name="firstName"
+          style="padding: 5px; width: 250px;"
+          placeholder="First name"
+          value=""
+        />
+        <input
+          type="text"
+          class=""
+          name="lastName"
+          style="padding: 5px; width: 250px;"
+          placeholder="Last name"
+          value=""
+        />
+        <br /><input
+          type="text"
+          class="mt-3"
+          name="number"
+          style="padding: 5px; width: 500px;"
+          placeholder="Phone number"
+          value=""
+        /><br />
+        <img src="static/icons/province.png" style="width: 25px;" class="" />
+
+        <select
+          class="mt-3"
+          style="color: gray; padding: 5px; width: 475px;"
+          class=""
+          name="provence"
+        >
+          <option value="Azad Jammu & Kashmir">Azad Jammu & Kashmir</option>
+          <option value="Balochistan">Balochistan</option>
+          <option value="Gilgit-Baltistan">Gilgit-Baltistan</option>
+          <option value="Federally Administered Tribal Areas"
+            >Federally Administered Tribal Areas</option
+          >
+          <option value="Islamabad Capital Territory"
+            >Islamabad Capital Territory</option
+          >
+          <option value="Khyber Pakhtunkhwa">Khyber Pakhtunkhwa</option>
+          <option value="Punjab">Punjab</option>
+          <option value="Sindh">Sindh</option> </select
+        ><br />
+        <input
+          type="text"
+          style="padding: 5px; width: 250px;"
+          placeholder="City"
+          value=""
+          name="city"
+        />
+        <input
+          type="text"
+          class="mt-3"
+          style="padding: 5px; width: 250px;"
+          placeholder="Area"
+          name="area"
+          value=""
+        /><br />
+        <input
+          type="text"
+          class="mt-3"
+          style="padding: 5px; width: 500px;"
+          placeholder="Complete address"
+          name="address"
+          value=""
+        /><br /><br />
+        <label class="float-left ml-4"
+          >Select lable for effective delivery.</label
+        >
+        <select
+          name="deliverTo"
+          style="color: gray; padding: 5px; width: 500px;"
+          class=""
+        >
+          <option value="Home">Home</option>
+          <option value="Office">Office</option> </select
+        ><br />
+        <div class="custom-control custom-switch mt-3 float-left ml-3">
+          <input
+            type="checkbox"
+            name="remove"
+            class="custom-control-input"
+            id="customSwitch1"
+          />
+          <label class="custom-control-label" for="customSwitch1"
+            >Confirm Order</label
+          >
+        </div>
+        <br /><br />
+        <button
+          type="submit"
+          class="float-left ml-3 btn"
+          style="
+            color: white;
+            text-decoration: none;
+            padding: 5px;
+            background-color: #e71c23;
+            padding-left: 50px;
+            padding-right: 50px;
+            margin-top: 36px;
+          "
+        >
+          <img
+            class="mr-2"
+            style="width: 22px;"
+            src="static/icons/checkout.png"
+          /><label style="font-weight: bold;">Checkout</label>
+        </button>
+      </form>
+    </div>
+    <div class="col text-center">
+      <h5 class="mb-3">Order Summary</h5>
+      <table
+        class="table table-striped"
+        style="margin-left: auto; margin-right: auto; width: 274px;"
+      >
+        <tbody>
+          <tr>
+            <td style="font-weight: bold;">Subtotal</td>
+            <td>Rs. {{total}}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold;">Delivery fee</td>
+            <td>Rs. 100</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold;">Discount</td>
+            <td>Rs. {{discount}}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold;">Total</td>
+            <td style="font-weight: bold; color: #dfaf2b;">Rs. {{subTotal}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <img src="static/icons/cashon.png" style="width: 25px;" srcset="" />
+      <b>Cash on delivery</b>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

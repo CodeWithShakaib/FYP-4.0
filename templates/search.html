@@ -1,0 +1,321 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="container">
+      <br>
+      <h5 class="mt-3 mb-5">50 results for "jeans"</h5>
+
+      <!-- Reating btn -->
+      <div class="btn-group ml-4 mb-2">
+        <button
+          class="btn btn-danger btn-sm dropdown-toggle"
+          type="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          style="padding: 3px; padding-left: 17px; padding-right: 17px;">
+          <img src="static/icons/rating.png" class="mr-2" style="width:20px">Ratings
+        </button>
+        <div class="dropdown-menu">
+          <div class="m-1" style="width: 300px;">
+            <h5 style="text-align: center;">Ratings</h5>
+            <div class="row">
+              <div class="col-5 mt-2" style="text-align: center;">
+                <h3>4.5</h3>
+                <span class="fa fa-star" style="color: #ffce1b;"></span>
+                <span class="fa fa-star" style="color: #ffce1b;"></span>
+                <span class="fa fa-star" style="color: #ffce1b;"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <br />
+                <p>8,777</p>
+              </div>
+              <div class="col-6 mt-3" style="text-align: center;">
+                <div class="progress mt-1" style="height: 10px;">
+                  <div
+                    class="progress-bar bg-warning"
+                    role="progressbar"
+                    style="width: 25%;"
+                    aria-valuenow="25"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <div class="progress mt-1" style="height: 10px;">
+                  <div
+                    class="progress-bar bg-warning"
+                    role="progressbar"
+                    style="width: 29%;"
+                    aria-valuenow="25"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <div class="progress mt-1" style="height: 10px;">
+                  <div
+                    class="progress-bar bg-warning"
+                    role="progressbar"
+                    style="width: 30%;"
+                    aria-valuenow="25"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <div class="progress mt-1" style="height: 10px;">
+                  <div
+                    class="progress-bar bg-warning"
+                    role="progressbar"
+                    style="width: 50%;"
+                    aria-valuenow="25"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <div class="progress mt-1" style="height: 10px;">
+                  <div
+                    class="progress-bar bg-warning"
+                    role="progressbar"
+                    style="width: 60%;"
+                    aria-valuenow="25"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sort btn -->
+      <!-- Example split danger button -->
+      <div class="ml-4 mb-4 float-left">
+        <button type="button" style="padding: 2px; padding-left: 17px; padding-right: 17px;" onclick="myfun()" class="btn btn-danger dropdown-toggle">
+          <img src="static/icons/sort.png" class="mr-2" style="width:20px">Sort
+        </button>
+      </div>
+      <div id="search" style="display: none; background-color: #EAF0F1;" class="mt-5">
+        <form class="justify-content-center">
+          <div class="form-row ml-5 mt-2">
+            <div class="col-12 form-inline">
+              <label class="my-1 mr-2" for="inlineFormCustomSelectPref"
+                >Brand Name</label
+>
+              <select
+                class="custom-select my-1 mr-sm-2"
+                id="inlineFormCustomSelectPref">
+                <option selected>Brand</option>
+                <option value="1">Lenova</option>
+                <option value="2">Maria b</option>
+                <option value="3">kham kheya</option>
+              </select>
+
+              <label class="my-1 mr-2" for="inlineFormCustomSelectPref"
+                >Categories</label
+              >
+              <select
+                class="custom-select my-1 mr-sm-2"
+                id="inlineFormCustomSelectPref"
+              >
+                <option selected>Categories</option>
+                <option value="1">Lenova</option>
+                <option value="2">Maria b</option>
+                <option value="3">kham kheya</option>
+              </select>
+
+              <label class="my-1 mr-2" for="inlineFormCustomSelectPref"
+                >Product</label
+              >
+              <select
+                class="custom-select my-1 mr-sm-2"
+                id="inlineFormCustomSelectPref"
+              >
+                <option selected>Categories</option>
+                <option value="1">pent</option>
+                <option value="2">shirt</option>
+                <option value="3">kham kheya</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row ml-5 mt-2">
+            <div class="col-12 form-inline" style="    margin-left: 62px;">
+              <div class="form-check m-4">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  id="exampleRadios1"
+                  value="option1"
+                  checked
+                />
+                <label class="form-check-label" for="exampleRadios1">
+                  Top Reated Produt
+                </label>
+              </div>
+              <div class="form-check m-4">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  id="exampleRadios2"
+                  value="option2"
+                />
+                <label class="form-check-label" for="exampleRadios2">
+                  Recomanded Products
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-row mt-2" style="margin-left: 68%;">
+            <button type="button" class="btn btn-dark mb-5">
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let a = true;
+    function myfun() {
+      if (a) {
+        a = false;
+        return (document.getElementById("search").style.display = "block");
+      } else {
+        a = true;
+        return (document.getElementById("search").style.display = "none");
+        
+      }
+    }
+  </script>
+
+  <!-- User Search Products -->
+
+  <div class="container">
+    <h6 class="mt-5">Showing results <b>for Jeans</b></h6>
+    <div class="row">
+      <div class="col-8">
+        <hr class="mt-1" />
+        <div class="row">
+          <div class="col-9">
+            <ul class="list-unstyled ml-1">
+              <li class="media">
+                <img
+                  class="mr-3"
+                  src="static/img/product-1.jpg"
+                  alt="Generic placeholder image"
+                  width="20%"
+                />
+                <div class="media-body">
+                  <b class="mt-0 mb-1">List-based media object</b><br>
+                  <label>Lenova - 26 product Sold</label>
+                  <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus.</p>
+                  <a href="#" style="text-decoration: none;" class="mt-3"><b>View</b></a>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col-3">
+            <h5>Rs 1500</h5>
+            <h6><strike>Rs 2000</strike></h6>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>4.6
+            <br />
+            (1,000+ Ratings)
+            <br />
+            
+          </div>
+        </div>
+
+        <hr class="mt-1" />
+        <div class="row">
+            <div class="col-9">
+              <ul class="list-unstyled ml-1">
+                <li class="media">
+                  <img
+                    class="mr-3"
+                    src="static/img/product-1.jpg"
+                    alt="Generic placeholder image"
+                    width="20%"
+                  />
+                  <div class="media-body">
+                    <b class="mt-0 mb-1">List-based media object</b><br>
+                    <label>Lenova - 26 product Sold</label>
+                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus.</p>
+                    <a href="#" style="text-decoration: none;" class="mt-3"><b>View</b></a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-3">
+              <h5>Rs 1500</h5>
+              <h6><strike>Rs 2000</strike></h6>
+              <span class="fa fa-star" style="color: #ffce1b;"></span>
+              <span class="fa fa-star" style="color: #ffce1b;"></span>
+              <span class="fa fa-star" style="color: #ffce1b;"></span>
+              <span class="fa fa-star"></span>
+              <span class="fa fa-star"></span>4.6
+              <br />
+              (1,000+ Ratings)
+              <br />
+              
+            </div>
+          </div>
+        <hr class="mt-1" />
+        <div class="row">
+            <div class="col-9">
+              <ul class="list-unstyled ml-1">
+                <li class="media">
+                  <img
+                    class="mr-3"
+                    src="static/img/product-1.jpg"
+                    alt="Generic placeholder image"
+                    width="20%"
+                  />
+                  <div class="media-body">
+                    <b class="mt-0 mb-1">List-based media object</b><br>
+                    <label>Lenova - 26 product Sold</label>
+                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus.</p>
+                    <a href="#" style="text-decoration: none;" class="mt-3"><b>View</b></a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-3">
+              <h5>Rs 1500</h5>
+              <h6><strike>Rs 2000</strike></h6>
+              <span class="fa fa-star" style="color: #ffce1b;"></span>
+              <span class="fa fa-star" style="color: #ffce1b;"></span>
+              <span class="fa fa-star" style="color: #ffce1b;"></span>
+              <span class="fa fa-star"></span>
+              <span class="fa fa-star"></span>4.6
+              <br />
+              (1,000+ Ratings)
+              <br />
+              
+            </div>
+          </div>
+      </div>
+      <!-- sider info of page -->
+      <div class="col-4">
+        <div class="card" style="width: 18rem;">
+          <img src="static/img/product-1.jpg" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">Our Famous Products</h5>
+            <p class="card-text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Molestiae, beatae. Porro earum dicta necessitatibus libero
+              repellendus voluptatem rem commodi, explicabo nulla, quia
+              inventore non est iste. Sed, obcaecati. Esse, voluptates?
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Admin Panel | dukan.com</title>
+    <link rel="icon" href="{{url_for('static', filename='icons/adminIcons/pageicon.png')}}">
+
+    <style>
+         ::-webkit-scrollbar {
+            width: 7px;
+        }
+        /* Track */
+        
+         ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        /* Handle */
+        
+         ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+        /* Handle on hover */
+        
+         ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row m-3 ">
+        <div class="col-md-2 rounded sticky-top pt-3" style="height: 95vh;background-color: #191919; color: white;">
+            <div class="text-center">
+                <img src="{{url_for('static', filename='icons/pageicon.png')}}" width="20px" alt=""><label class="ml-2" style="font-size: 18px;"> dukan.com</label>
+                <hr style="margin-bottom: 0rem;">
+            </div>
+
+            <a href="/admin">
+                <button id="dashboardButton" style="background-color: maroon; width: 100%; height:40px; border: none; color: white; font-weight: bolder;">
+          <div class="float-left">
+              <img src="{{url_for('static', filename='icons/adminIcons/dashboard.png')}}"  width="25px" alt="">    
+              Dashboard
+          </div>
+          </button>
+            </a>
+
+            <a href="#">
+                <button id="productsButton" onclick="productsFunc()" style="background-color: #191919; width: 100%; height:40px; border: none; color: white; font-weight: bolder;">
+              <div class="float-left">
+                  <img src="{{url_for('static', filename='icons/adminIcons/products.png')}}"  width="25px" alt="">    
+                  Products
+              </div>
+              </button>
+            </a>
+
+            <a href="#">
+                <button id="ordersButton" onclick="ordersFunc()" style="background-color: #191919; width: 100%; height:40px; border: none; color: white; font-weight: bolder;">
+                  <div class="float-left">
+                      <img src="{{url_for('static', filename='icons/adminIcons/orders.png')}}"  width="25px" alt="">    
+                      Orders
+                  </div>
+                  </button>
+            </a>
+
+            <a href="#">
+                <button id="profileButton" onclick="profileFunc()" style="background-color: #191919; width: 100%; height:40px; border: none; color: white; font-weight: bolder;">
+                  <div class="float-left">
+                      <img src="{{url_for('static', filename='icons/adminIcons/profile.png')}}"  width="25px" alt="">    
+                      User Profile
+                  </div>
+                  </button>
+            </a>
+        </div>
+
+        <div class="col-md-10 " id="dashboard" style="overflow: auto;display:block;">
+
+            <h4 style="font-family:Microsoft YaHei; font-weight:bold;color:#222222c0;">Admin Dashboard</h4>
+            <hr>
+            <div class="m-2">
+                <div class="row">
+
+                    <div data-toggle="collapse" href="#collapseProducts" role="button" aria-expanded="true" aria-controls="collapseProducts" class="col m-3 rounded" style="  background-image: linear-gradient(to right, crimson , purple); color: white;">
+
+                        <div class="row" data-toggle="tooltip" title="Till Today">
+                            <div class="col text-center">
+                                <img class="mt-4" src="{{url_for('static', filename='icons/adminIcons/productCard.png')}}" alt="" style="width: 50px;">
+                            </div>
+                            <div class="col">
+                                <label class="mt-3 float-right" style="font-size:22px; font-family: Microsoft YaHei;">Products</label><br>
+                                <label class="float-right" style="font-size:35px; font-weight:bold;margin-top: -18px; font-family: Microsoft YaHei;">100</h3>
+                                </div>
+                              </div>
+                              
+                            </div>
+
+                            <div class="col m-3 rounded" data-toggle="collapse" href="#collapseOrders" role="button" aria-expanded="true" aria-controls="collapseOrders"  style="  background-image: linear-gradient(to right,#06c200 , #26ae60);  color: white;">
+
+                                <div class="row" data-toggle="tooltip" title="Remaining Queued">
+                                    <div class="col text-center">
+                                        <img class="mt-4" src="{{url_for('static', filename='icons/adminIcons/ordersCard.png')}}" alt="" style="width: 50px;">
+                                    </div>
+                                    <div class="col">
+                                        <label class="mt-3 float-right" style="font-size:22px; font-family: Microsoft YaHei;">Orders</label>
+                                <label class="float-right" style="font-size:35px; font-weight:bold;margin-top: -18px; font-family: Microsoft YaHei;">88</h3>
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+
+
+                                    <div class="col m-3 rounded" data-toggle="collapse" href="#collapseMembers" role="button" aria-expanded="true" aria-controls="collapseMembers"   style="background-image: linear-gradient(to right,#FAC42F ,darkorange); color:white ;">
+
+                                        <div class="row" data-toggle="tooltip" title="Till Today">
+                                            <div class="col text-center">
+                                                <img class="mt-4" src="{{url_for('static', filename='icons/adminIcons/membersCard.png')}}" alt="" style="width: 50px;">
+                                            </div>
+                                            <div class="col">
+                                                <label class="mt-3 float-right" style="font-size:22px; font-family: Microsoft YaHei;">Members</label>
+                                <label class="float-right" style="font-size:35px; font-weight:bold;margin-top: -18px; font-family: Microsoft YaHei;">188</h3>
+                                                </div>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                            <div class="col m-3 rounded" data-toggle="collapse" href="#collapseSales" role="button" aria-expanded="true" aria-controls="collapseSales"  style="background-image: linear-gradient(to right,#2B2B52 , #1287A5); color: white;">
+
+                                                <div class="row"  data-toggle="tooltip" title="Products Sold Today">
+                                                    <div class="col text-center">
+                                                        <img class="mt-4" src="{{url_for('static', filename='icons/adminIcons/salesCard.png')}}" alt="" style="width: 50px;">
+                                                    </div>
+                                                    <div class="col">
+                                                        <label class="mt-3 float-right" style="font-size:22px; font-family: Microsoft YaHei;">Sales</label>
+                                <label class="float-right" style="font-size:35px; font-weight:bold;margin-top: -18px; font-family:  Microsoft YaHei;">152</h3>
+                                                        </div>
+                                                      </div>
+                                                      
+                                                    </div>
+                        </div>
+                    </div>
+
+                    <!-- Products Collapes -->
+                        <div class="collapse" id="collapseProducts">
+                            <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:purple;">
+                              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            </div>
+                        </div>
+                    <!--end  -->
+
+                    <!-- Orders Collapes -->
+                    <div class="collapse" id="collapseOrders">
+                            <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:#06c200;">
+                              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            </div>
+                        </div>
+                    <!--end  -->
+
+                    <!-- Members Collapes -->
+                    <div class="collapse" id="collapseMembers">
+                            <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:darkorange;">
+                              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            </div>
+                        </div>
+                    <!--end  -->
+
+                    <!-- Sales Collapes -->
+                    <div class="collapse" id="collapseSales">
+                            <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:#1287A5;">
+                              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            </div>
+                        </div>
+                    <!--end  -->
+
+
+                </div>
+
+
+
+
+
+                <div class="col-md-10 " id="products" style="overflow: auto;display:none;">
+
+                    <h4 style="font-family:Microsoft YaHei; font-weight:bold;color:#222222c0;">Products Panel</h4>
+                    <hr>
+                </div>
+
+
+                <div class="col-md-10 " id="orders" style="overflow: auto;display:none;">
+
+                    <h4 style="font-family:Microsoft YaHei; font-weight:bold;color:#222222c0;">Orders Panel</h4>
+                    <hr>
+                </div>
+
+                <div class="col-md-10 " id="profile" style="overflow: auto;display:none;">
+
+                    <h4 style="font-family:Microsoft YaHei; font-weight:bold;color:#222222c0;">User Profile</h4>
+                    <hr>
+                </div>
+
+            </div>
+
+
+            
+            <!-- Optional JavaScript -->
+            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+            <script>
+                function productsFunc() {
+                    document.getElementById('dashboard').style = "display:none;";
+                    document.getElementById('products').style = "display:block;";
+                    document.getElementById('orders').style = "display:none;";
+
+                    document.getElementById('dashboardButton').style = "background-color:#191919;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+                    document.getElementById('ordersButton').style = "background-color:#191919;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+                    document.getElementById('productsButton').style = "background-color:maroon;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+                    document.getElementById('profile').style = "display:none";
+                    document.getElementById('profileButton').style = "background-color:#191919;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+
+                }
+
+                function ordersFunc() {
+                    document.getElementById('dashboard').style = "display:none;";
+                    document.getElementById('products').style = "display:none;";
+                    document.getElementById('orders').style = "display:block;";
+                    document.getElementById('dashboardButton').style = "background-color:#191919;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+                    document.getElementById('ordersButton').style = "background-color:maroon;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+                    document.getElementById('productsButton').style = "background-color:#191919;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+                    document.getElementById('profile').style = "display:none";
+                    document.getElementById('profileButton').style = "background-color:#191919;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+
+                }
+
+                function profileFunc() {
+                    document.getElementById('dashboard').style = "display:none;";
+                    document.getElementById('products').style = "display:none;";
+                    document.getElementById('orders').style = "display:none;";
+                    document.getElementById('profile').style = "display:block";
+                    document.getElementById('dashboardButton').style = "background-color:#191919;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+                    document.getElementById('ordersButton').style = "background-color:#191919;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+                    document.getElementById('productsButton').style = "background-color:#191919;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+                    document.getElementById('profileButton').style = "background-color:maroon;  width: 100%; height:40px; border: none; color: white; font-weight: bolder;";
+
+
+                }
+                $(document).ready(function(){
+                    $('[data-toggle="tooltip"]').tooltip();   
+                  });
+            </script>
+
+</body>
+
+</html>
