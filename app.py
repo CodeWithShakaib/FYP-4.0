@@ -269,13 +269,87 @@ def search():
 
 @app.route('/cd')
 def CustomerDashboard():
-    print(userexist)
+    # print(userexist)
+    ids = tuple()
+    mycursor = mydb.cursor()
+    sql = "SELECT * FROM userorder WHERE userID='{}' AND comment = 'yes'".format(userexist)
+    mycursor.execute(sql)
+    userOrderData = mycursor.fetchall()
+    # print(userOrderData)
+
+    for i in userOrderData:
+        ids+=(str(i[0]),)
+
+    # print(ids)
+    mycursor = mydb.cursor()
+    sql = "SELECT * FROM orderdetail WHERE UserOrderID in {}".format(ids)
+    mycursor.execute(sql)
+    OrderdetailData = mycursor.fetchall()
+    # print(OrderdetailData)
+    Pids = tuple()
+    for i in OrderdetailData:
+        Pids+=(str(i[1]),)
+
+
+    mycursor = mydb.cursor()
+    sql = "SELECT id,name,price,discount,description,img1 FROM products WHERE Id in {}".format(Pids)        #productDetail
+    mycursor.execute(sql)
+    products= mycursor.fetchall()
+
+    print(products)
+
+    mycursor = mydb.cursor()
+    sql = "SELECT * FROM users WHERE id='{}'".format(userexist)
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    fullName=myresult[0][1]+" "+myresult[0][2]
+    
+
+
     mycursor = mydb.cursor()
     sql = "SELECT * FROM products WHERE favourite =1"
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
-    print(myresult)
-    return render_template('CustomerDashboard.html', FavouritProduct=myresult)
+
+#    for not delivered items
+    ids = tuple()
+    mycursor = mydb.cursor()
+    sql = "SELECT * FROM userorder WHERE userID='{}' AND comment = 'no'".format(userexist)
+    mycursor.execute(sql)
+    userOrderData = mycursor.fetchall()
+    # print(userOrderData)
+    dates = []
+    for i in userOrderData:
+        dates.append(i[1])
+        ids+=(str(i[0]),)
+
+    # print(ids)
+    mycursor = mydb.cursor()
+    sql = "SELECT * FROM orderdetail WHERE UserOrderID in {}".format(ids)
+    mycursor.execute(sql)
+    OrderdetailData = mycursor.fetchall()
+    # print(OrderdetailData)
+    
+    
+    Pids = tuple()
+    for i in OrderdetailData:
+        
+        Pids+=(str(i[1]),)
+
+
+    mycursor = mydb.cursor()
+    sql = "SELECT id,name,price,discount,description,img1 FROM products WHERE Id in {}".format(Pids)        #productDetail
+    mycursor.execute(sql)
+    nonDeliveredproducts= mycursor.fetchall()
+
+    if len(nonDeliveredproducts)>len(dates):
+        for i in range(len(dates),len(nonDeliveredproducts)):
+            dates.append(dates[0])
+    print(dates)
+
+
+
+    return render_template('CustomerDashboard.html',dates=dates,nonDeliveredProducts=nonDeliveredproducts, FavouritProduct=myresult,fullName=fullName,purchededProducts = products)
 
 @app.route('/pd/<string:id>' , methods=["POST", "GET"])
 def productDetail(id):
@@ -296,7 +370,7 @@ def productDetail(id):
                 mycursor = mydb.cursor()
                 now = datetime.datetime.now()
                 sql = """INSERT INTO userorder (date, userID, status, comment)  VALUES ( %s, %s, %s, %s)"""
-                val = (now.strftime("%Y-%m-%d"), userexist , "NotConfirmed","Noconfirm yet")
+                val = (now.strftime("%Y-%m-%d"), userexist , "NotConfirmed","no")
                 mycursor.execute(sql, val)
                 mydb.commit()
                 # Fetch  userorder id if exist

@@ -6,8 +6,9 @@
   <div>
     <h5 class="mt-3"
       style="font-weight:bolder;">
-      Welcome Back, {{Name}}
+      Welcome Back, {{fullName}}
     </h5>
+    <!-- {{purchededProducts}} -->
     <hr class="container">
     <a href="/wr" class="ml-1" style="font-weight: bold; text-decoration: none;">
       Purchsed Products
@@ -16,103 +17,100 @@
     <b class="float-left">
       You can write reviews on 
     </b>
-    <div id="carouselExampleControls" class="carousel slide mt-3" data-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <div class="row">
-
-            <div class="col-md-3 text-center">
-              <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-              <b>Doted Shirt</b><br>
-              <label>Rs.999</label><br>
-              <a href="#" style="text-decoration: none;">
-                <b>Write Review</b>
-              </a>
-            </div>
-
-            <div class="col-md-3 text-center">
-              <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-              <b>Doted Shirt</b><br>
-              <label>Rs.999</label><br>
-              <a href="#" style="text-decoration: none;">
-                <b>Write Review</b>
-              </a>
-            </div>
-
-            <div class="col-md-3 text-center">
-              <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-              <b>Doted Shirt</b><br>
-              <label>Rs.999</label><br>
-              <a href="#" style="text-decoration: none;">
-                <b>Write Review</b>
-              </a>
-            </div>
-
-            <div class="col-md-3 text-center">
-              <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-              <b>Doted Shirt</b><br>
-              <label>Rs.999</label><br>
-              <a href="#" style="text-decoration: none;">
-                <b>Write Review</b>
-              </a>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="carousel-item">
-          <div class="row">
-
-            <div class="col-md-3 text-center">
-              <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-              <b>Doted Shirt</b><br>
-              <label>Rs.999</label><br>
-              <a href="#" style="text-decoration: none;">
-                <b>Write Review</b>
-              </a>
-            </div>
-
-            <div class="col-md-3 text-center">
-              <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-              <b>Doted Shirt</b><br>
-              <label>Rs.999</label><br>
-              <a href="#" style="text-decoration: none;">
-                <b>Write Review</b>
-              </a>
-            </div>
-
-            <div class="col-md-3 text-center">
-              <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-              <b>Doted Shirt</b><br>
-              <label>Rs.999</label><br>
-              <a href="#" style="text-decoration: none;">
-                <b>Write Review</b>
-              </a>
-            </div>
-
-            <div class="col-md-3 text-center">
-              <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-              <b>Doted Shirt</b><br>
-              <label>Rs.999</label><br>
-              <a href="#" style="text-decoration: none;">
-                <b>Write Review</b>
-              </a>
-            </div>
-
-          </div>
-        </div>
-
-
+    <br><br>
+    {% if purchededProducts|length <= 4 %}
+    
+    <div class="row">
+      {% for i in purchededProducts%}
+      
+      <div class="col-md-3 text-center">
+        <img  style="height: 120px;" src="{{url_for('static',filename = i[5])}}" /><br><br>
+        <b>{{i[1]}}</b><br>
+        <label>Rs. {{i[2]}}</label><br>
+        
       </div>
-      <a class="carousel-control-prev" style="margin: -100px;" href="#carouselExampleControls" role="button"
+
+      {% endfor %}
+
+    </div>
+    {% endif %}
+
+    {% if purchededProducts|length > 4 %}
+      {% set value= purchededProducts|length /4 %}
+      {% if purchededProducts|length%4 != 0 %}
+      {% set value=value+1 %}
+      {% endif %}
+      {% set a= 4 %}
+      {% set b=0  %}
+      
+
+
+    <div id="carouselpurchesed" class="carousel slide mt-3" data-ride="carousel">
+      
+      <div class="carousel-inner">
+        
+        <div class="carousel-item active">
+
+          <div class="row">
+
+            {% for j in purchededProducts[b:a] %}
+            <div class="col-md-3 text-center">
+              <img style="height:120px;" src="{{url_for('static',filename = j[5])}}" /><br><br>
+              <b>{{j[1]}}</b><br>
+              <label>Rs. {{j[2]}}</label><br>
+              
+            </div>
+            {% endfor %}
+
+            
+
+          </div>
+        </div>
+
+        
+
+
+        {% for i in range(1,value|int) %}
+        <div class="carousel-item">
+          {% set a=a+ 4 %}
+            {% set b=b+4  %}
+            
+          <div class="row">
+
+            {% for j in purchededProducts[b:a] %}
+            <div class="col-md-3 text-center">
+              <img style="height:120px;" src="{{url_for('static',filename = j[5])}}" /><br><br>
+              <b>{{j[1]}}</b><br>
+              <label>Rs. {{j[2]}}</label><br>
+              
+            </div>
+            {% endfor %}
+
+            
+            
+
+          </div>
+        </div>
+
+        {% endfor %}
+
+
+
+
+        
+      </div>
+      
+      <a class="carousel-control-prev" style="margin: -100px;" href="#carouselpurchesed" role="button"
         data-slide="prev">
         <img src="static/icons/left.png" alt="">
       </a>
-      <a class="carousel-control-next" style="margin: -100px;" href="#carouselExampleControls" role="button"
+      <a class="carousel-control-next" style="margin: -100px;" href="#carouselpurchesed" role="button"
         data-slide="next">
         <img src="static/icons/right.png" alt="">
       </a>
     </div>
+
+    {% endif %}
   </div>
   <hr class="container mb-5">
   <div class="container mt-5">
@@ -143,73 +141,39 @@
 
 
 
-    <table class="table table-striped mb-5">
+    <table class="table table-striped mb-5 css-serial">
       <thead>
         <tr>
           <th>#</th>
           <th>Products</th>
-          <th>Delivered Date</th>
+          <th>Ordered Date</th>
           <th>Recieved</th>
         </tr>
       </thead>
       <tbody>
+        {% for i in nonDeliveredProducts %}
         <tr>
-          <td>1</td>
+          <td></td>
           <td>
             <div class="media">
-              <img class="mr-3" src="static/img/product-1.jpg" width="20%" alt="Generic placeholder image">
+              <img class="mr-3" src="{{ url_for('static',filename=i[5])}}" width="20%" alt="Generic placeholder image">
               <div class="media-body">
-                <b class="mt-0">Leather Bag</b><br>
-                <label>Their we will write one liner description about that product</label><br>
-                <b>Rs. 1000</b><br>
-                <a href="#" style="text-decoration: none;"><img width="20px" src="static/icons/eye.png"></a>
+                <b class="mt-0">{{i[1]}}</b><br>
+                <label>{{i[4][0:150]}}...</label><br>
+                <b>Rs. {{i[2]}}</b><br>
+                <a href="pd/{{i[0]}}" style="text-decoration: none;"><img width="20px" src="static/icons/eye.png"></a>
               </div>
             </div>
             <br>
 
 
           </td>
-          <td><b>Thursday, 16 April 2020</b></td>
+          <td><b>{{i[0]}} August 2020</b></td>
           <td><img src="static/icons/tickicon.png" width="25px"></i></td>
         </tr>
-        <tr>
-          <td>2</td>
-          <td>
-            <div class="media">
-              <img class="mr-3" src="static/img/product-1.jpg" width="20%" alt="Generic placeholder image">
-              <div class="media-body">
-                <b class="mt-0">Leather Bag</b><br>
-                <label>Their we will write one liner description about that product</label><br>
-                <b>Rs. 1000</b><br>
-                <a href="#" style="text-decoration: none;"><img width="20px" src="static/icons/eye.png"></a>
-              </div>
-            </div>
-            <br>
-
-
-          </td>
-          <td><b>Thursday, 16 April 2020</b></td>
-          <td><img src="static/icons/crossicon.png" width="25px"></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>
-            <div class="media">
-              <img class="mr-3" src="static/img/product-1.jpg" width="20%" alt="Generic placeholder image">
-              <div class="media-body">
-                <b class="mt-0">Leather Bag</b><br>
-                <label>Their we will write one liner description about that product</label><br>
-                <b>Rs. 1000</b><br>
-                <a href="#" style="text-decoration: none;"><img width="20px" src="static/icons/eye.png"></a>
-              </div>
-            </div>
-            <br>
-
-
-          </td>
-          <td><b>Thursday, 16 April 2020</b></td>
-          <td><img src="static/icons/tickicon.png" width="25px"></td>
-        </tr>
+        {% endfor %}
+        
+        
       </tbody>
     </table>
 
@@ -530,59 +494,20 @@
         <div class="col-sm text-center">
           <form action="pd/{{item[0]}}" method="">
             
-          <img src="{{ url_for('static',filename=item[6])}}" style="border: none;" class="img-thumbnail" alt="" srcset="">
+          <img src="{{ url_for('static',filename=item[6])}}" style="border: none; height: 120px;"  alt="" srcset=""><br><br>
           <br><b>{{item[1]}}</b><br><label>Rs.{{item[2]}}</label><br>
           <button type="submit" style="border:none;background-color: #019031; color: white; width: 200px;padding: 5px;">
             <b>view</b>
           </button>
           </form>
+          <br>
         </div>
         {% endfor %}
 
       </div>
     </div>
 
-    <div class="carousel-item">
-      <div class="row">
-
-        <div class="col-md-3 text-center">
-          <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-          <b>Doted Shirt</b><br>
-          <label>Rs.999</label><br>
-          <button style="border:none;background-color: #DFAF2B; color: white; width: 200px;padding: 5px;">
-            <b>view</b>
-          </button>
-        </div>
-
-        <div class="col-md-3 text-center">
-          <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-          <b>Doted Shirt</b><br>
-          <label>Rs.999</label><br>
-          <button style="border:none;background-color: #DFAF2B; color: white; width: 200px;padding: 5px;">
-            <b>view</b>
-          </button>
-        </div>
-
-        <div class="col-md-3 text-center">
-          <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-          <b>Doted Shirt</b><br>
-          <label>Rs.999</label><br>
-          <button style="border:none;background-color: #DFAF2B; color: white; width: 200px;padding: 5px;">
-            <b>view</b>
-          </button>
-        </div>
-
-        <div class="col-md-3 text-center">
-          <img class="img-thumbnail" class="" src="static/img/product-1.jpg" />
-          <b>Doted Shirt</b><br>
-          <label>Rs.999</label><br>
-          <button style="border:none;background-color: #DFAF2B; color: white; width: 200px;padding: 5px;">
-            <b>view</b>
-          </button>
-        </div>
-
-      </div>
-    </div>
+  
 
 
   </div>
