@@ -1,5 +1,120 @@
 <!-- Update Today 5/6/2020 -->
-{% extends "layout.html" %} {% block content %}
+<!-- update today -->
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>dukan.com</title>
+    <link rel="icon" href="static\icons\pageicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        input:focus {
+            box-shadow: 0 1px 12px 0 #4BCFFA, 0 0 0 1px #0A79DF;
+        }
+        
+        li {
+            list-style: none;
+        }
+        
+        input:not(:focus) {
+            box-shadow: none;
+        }
+        
+        .checked {
+            color: orange;
+        }
+        
+         ::-webkit-scrollbar {
+            width: 7px;
+        }
+        /* Track */
+        
+         ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        /* Handle */
+        
+         ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+        /* Handle on hover */
+        
+         ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    
+    </style>
+<script>
+var great = {{percentageDic.great}};
+var satisfactory = {{percentageDic.satisfactory}};
+var very_good = {{percentageDic.very_good}};
+var bad = {{percentageDic.bad}};
+var worst = {{percentageDic.worst}};
+console.log(great)
+
+
+</script>
+</head>
+
+<body>
+    <div class="container-fluid text-center" style="border-bottom: 5px solid; border-color: #43BE31; background-color: black; color: white;">
+        <label class="mt-1">Delivery all over Pakistan</label><img class="ml-2" style="height: 24px;" src="{{ url_for('static',filename='icons/flagicon.png')}}">
+    </div>
+
+    <div class="container-fluid pt-1" style="background-color:#EAF0F1; overflow:hidden;">
+        <a class="float-right " style="text-decoration:none; color: black;" href="/login">Login</a><b class="float-right">/</b>
+        <a class="float-right ml-4" style="text-decoration:none; color: black;" href="/register">Register</a>
+        <a class="float-right ml-4" style="text-decoration:none; color: black;" href="/contact"> Customer Care </a>
+        <label class="float-right" style="color: #7B8788;">0335-6311182</label>
+        <img style="height: 18px;" class="float-right mt-1" src="{{ url_for('static',filename='icons/phoneicon.png')}}" alt="">
+    </div>
+
+    <div style="overflow:hidden; margin-bottom: -34px;" class="container pt-4 text-center">
+        <a href="/home" target="_blank"><img class="float-left" style="height: 110px;" src="{{ url_for('static',filename='icons/logo.png')}}"></a>
+        <b class="float-right pl-1 pr-1" style="font-size:13px; background-color: red; color: white; border-radius: 50%;">{{HowManyProductsInCart}}</b>
+        <a href="/cart"><img class="float-right" style="height: 30px;" src="{{ url_for('static',filename='icons/carticon.png')}}"></a>
+
+        <input type="text" class="p-1" style="width:500px; border: none; background-color: #f7f7f7;" placeholder="You can search here" aria-label="Username" aria-describedby="addon-wrapping">
+        <a href="/search"><img class="m-1" src="{{ url_for('static',filename='icons/searchicon.png')}}" alt=""></a>
+    </div>
+    <div style="overflow:hidden; background-color: #2C3335;  color: white;" class="p-2 container text-center">
+
+        <a href="/shop/{{0}}" style="text-decoration: none; color: white;"> <img style="height: 20px;" src="{{ url_for('static',filename='icons/shopicon.png')}}" alt=""><b class="mr-5 ml-2">Shop</b>
+        </a>
+        <a href="#" style="text-decoration: none; color: white;"><img style="height: 20px;" src="{{ url_for('static',filename='icons/catagoriesicon.png')}}" class="ml-5 mr-2" alt=""><b class="mr-5">Catagories</b></a>
+        <a href="#" style="text-decoration: none; color: white;"><img style="height: 20px;" src="{{ url_for('static',filename='icons/abouticon.png')}}" class="ml-5" alt=""><b class="ml-2 mr-5">About</b></a>
+
+        <a href="#" style="text-decoration: none; color: white;"><img style="height: 20px;" src="{{ url_for('static',filename='icons/brandsicon.png')}}" class="ml-5" alt=""><b class="ml-2 mr-5">Brands</b></a>
+
+        <style>
+            .img-thumbnail {
+                border: none;
+            }
+            
+            .checked {
+                color: orange;
+            }
+            
+            .badge {
+                padding: 12px;
+                font-weight: bold;
+                font-size: 15px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        </style>
+    </div>
+
+
 
 {% if message %}
 <!-- 
@@ -195,107 +310,161 @@
   <hr />
   <div id="piechart_3d" class="container" style="width: 900px; height: 500px;"></div>
 </div>
-
+</div>
 <h5 class="mt-5 container">Customer Reviews</h5>
 <hr class="container" />
 
+{% for review in reviewsList %}
 <div class="media container mb-5">
-  <img class="mr-3" src="{{ url_for('static',filename='img/imran.jpg')}}" style="border-radius: 50%; width: 100px;"
+  <img class="mr-3" src="{{ url_for('static',filename=review[2])}}" style="border-radius: 50%; width: 100px;"
     alt="Generic placeholder image" />
   <div class="media-body">
-    <h5 class="mt-0">Imran Khan</h5>
-    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-    ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus
-    viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec
-    lacinia congue felis in faucibus.
+    <h5 class="mt-0">{{review[0]}} {{review[1]}}</h5>
+    {{review[3]}}
 
     <br />
+    {% if review[5] == 1 %}
+     <span class="fa fa-star" style="color: #ffce1b;"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    {% elif review[5] == 2 %}
+     <span class="fa fa-star" style="color: #ffce1b;"></span>
     <span class="fa fa-star" style="color: #ffce1b;"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    {% elif review[5] == 3 %}
+     <span class="fa fa-star" style="color: #ffce1b;"></span>
     <span class="fa fa-star" style="color: #ffce1b;"></span>
     <span class="fa fa-star" style="color: #ffce1b;"></span>
     <span class="fa fa-star"></span>
     <span class="fa fa-star"></span>
-    <br /><b>Friday, April 17,2020</b>
+    {% elif review[5] == 4 %}
+     <span class="fa fa-star" style="color: #ffce1b;"></span>
+    <span class="fa fa-star" style="color: #ffce1b;"></span>
+    <span class="fa fa-star" style="color: #ffce1b;"></span>
+    <span class="fa fa-star" style="color: #ffce1b;"></span>
+    <span class="fa fa-star"></span>
+    {% elif review[5] == 5 %}
+     <span class="fa fa-star" style="color: #ffce1b;"></span>
+    <span class="fa fa-star" style="color: #ffce1b;"></span>
+    <span class="fa fa-star" style="color: #ffce1b;"></span>
+    <span class="fa fa-star" style="color: #ffce1b;"></span>
+    <span class="fa fa-star" style="color: #ffce1b;"></span>
+    
+    {% else %}
+     <span class="fa fa-star"></span>
+    <span class="fa fa-star" ></span>
+    <span class="fa fa-star" ></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    {% endif %}
+    
+    <br /><b>{{review[4]}}</b>
   </div>
 </div>
+{% endfor %}
 
-<div class="media container mb-5">
-  <img class="mr-3" src="{{ url_for('static',filename='img/imran.jpg')}}" style="border-radius: 50%; width: 100px;"
-    alt="Generic placeholder image" />
-  <div class="media-body">
-    <h5 class="mt-0">Imran Khan</h5>
-    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-    ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus
-    viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec
-    lacinia congue felis in faucibus.
-
-    <br />
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <br /><b>Friday, April 17,2020</b>
-  </div>
-</div>
-
-<div class="media container mb-5">
-  <img class="mr-3" src="{{ url_for('static',filename='img/imran.jpg')}}" style="border-radius: 50%; width: 100px;"
-    alt="Generic placeholder image" />
-  <div class="media-body">
-    <h5 class="mt-0">Imran Khan</h5>
-    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-    ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus
-    viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec
-    lacinia congue felis in faucibus.
-
-    <br />
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <br /><b>Friday, April 17,2020</b>
-  </div>
-</div>
-
-<div class="media container mb-5">
-  <img class="mr-3" src="{{ url_for('static',filename='img/imran.jpg')}}" style="border-radius: 50%; width: 100px;"
-    alt="Generic placeholder image" />
-  <div class="media-body">
-    <h5 class="mt-0">Imran Khan</h5>
-    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-    ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus
-    viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec
-    lacinia congue felis in faucibus.
-
-    <br />
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <br /><b>Friday, April 17,2020</b>
-  </div>
-</div>
+{% if reviewsList|length == 0 %}
+  <b class="float-right container" style="font-size:14px;">Sorry, there are no review for this product.</b>
+{% else %}
 <a href="#" style="text-decoration: none;" class="float-right container"><b>See more</b></a>
+{% endif %}
+<br><br>
 
-<br /><br />
+</div>
+  <div class="pt-5 pb-5 mt-5" style="border-bottom: 5px solid; border-color: #43BE31; overflow: hidden; background-color: black; color: white;">
+        <form class="">
+            <div class="container" style="">
+                <b>Subscribe to our newsletter</b>
+                <div style="display: flex;justify-content: space-between;">
+                    <input style="display: inline-block;" type="email" class="form-control mt-2" placeholder="Enter your email address" aria-label="Username" aria-describedby="basic-addon1">
+                    <button class="mt-2" style="display: inline-block;border:none;background-color: #43BE31; color: white;width: 250px;margin-left: -2px;"><b>Subscribe</b></button>
+                </div>
+            </div>
+        </form>
+        <br><br>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <a style="text-decoration: none; color: white;" href="home.html"><b style="margin-left: 39px;">dukan.com</b></a>
+                    <ul>
+                        <li><a style="text-decoration: none;  color: white;" href="#">About us</a></li>
+                        <li><a style="text-decoration: none; color: white;" href="#">Shop</a></li>
+                        <li><a style="text-decoration: none; color: white;" href="#">Contact us</a></li>
+                        <li><a style="text-decoration: none; color: white;" href="#">Terms and conditions</a></li>
 
-<!-- Customer Written Reviews  -->
+                    </ul>
+                </div>
+                <div class="col-sm">
+                    <a style="text-decoration: none; color: white;" href="#"><b style="margin-left: 39px;">HELP</b></a>
+                    <ul>
+                        <li><a style="text-decoration: none;  color: white;" href="#">How to order?</a></li>
+                        <li><a style="text-decoration: none; color: white;" href="#">How to Pay?</a></li>
+                        <li><a style="text-decoration: none; color: white;" href="#">Return and refund?</a></li>
 
+                    </ul>
+                </div>
+                <div class="col-sm">
+                    <b style="margin-left: 39px;">CONTACT INFORMATION</b>
+                    <ul>
+                        <li>
+                            <b>Phone</b>
+                        </li>
+                        <li>
+                            <label>0335-6311182</label>
+                        </li>
+                        <li>
+                            <b>Email</b>
+                        </li>
+                        <li>
+                            <label>shakaibhassan16@gmail.com</label>
+                        </li>
+                        <li>
+                            <b>Working Days/Working Hours</b>
+                        </li>
+                        <li>
+                            <label>Mon-Sun/9:00 AM-5:00 PM</label>
+                        </li>
+                        <li>
+                            <hr style="border-top: 1px solid grey;">
+                            <div class="text-center">
+                                <a href="#" class="mr-3 fa fa-facebook"></a>
+                                <a href="#" class="mr-3  fa fa-twitter"></a>
+                                <a href="#" class="mr-3 fa fa-instagram"></a>
+                                <a href="#" class="mr-3 fa fa-google"></a>
+                                <a href="#" class="mr-3 fa fa-pinterest"></a>
+                                <a href="#" class="mr-3 fa fa-youtube"></a>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <hr style="border-top: 1px solid white;"> Copyright &copy;
+            <script>
+                document.write(new Date().getFullYear());
+            </script><a href="" style="text-decoration: none;"> dukan.com</a>.All rights reserved.</label>
+            <label class="float-right">Made in <a href="#" style="text-decoration: none;">ARID</a> with <img width="18px" src="{{ url_for('static',filename='icons/heart.png')}}"></label>
+        </div>
+    </div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
   google.charts.load("current", { packages: ["corechart"] });
   google.charts.setOnLoadCallback(drawChart);
+  
   function drawChart() {
     var data = google.visualization.arrayToDataTable([
-      ["Task", "Hours per Day"],
-      ["Work", 11],
-      ["Eat", 2],
-      ["Commute", 2],
-      ["Watch TV", 2],
-      ["Sleep", 7],
+      ["Sentiments", "Percentage"],
+      ["Satisfactory", satisfactory],
+      ["Great", great],
+      ["Very good", very_good],
+      ["Bad", bad],
+      ["Wrost", worst],
     ]);
 
     var options = {
@@ -310,4 +479,13 @@
   }
 </script>
 
-{% endblock %}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

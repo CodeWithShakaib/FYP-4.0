@@ -1,9 +1,8 @@
-#Tayyab Orignal app.py file
-
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash,jsonify
 import mysql.connector
 import datetime
-
+import sentiment_analyser
+percentageDic = {}
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -13,10 +12,14 @@ mydb = mysql.connector.connect(
 
 
 app = Flask(__name__)
-print(mydb)
+
 userexist=0
 HowManyProducts=0
 orderId=0
+
+
+
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -25,15 +28,7 @@ def home():
     sql = "SELECT * FROM products WHERE favourite =1"
     mycursor.execute(sql)
     favouritProducts = mycursor.fetchall()
-    # for x in favouritProducts:
-        # print("ID", x[0])
-        # print("Name", x[1])
-        # print("Price", x[2])
-        # print("Price", x[6])
-        # print("Price", x[7])
-        # print("Price", x[8])
-    print(favouritProducts)
-
+    
     reviewRows=list()
     reviewRow=list()
 
@@ -54,26 +49,9 @@ def home():
         reviewRows.append(reviewRow)
         reviewRow=[]
    
-    print(reviewRows[0],"*******************************first")
-    print(reviewRows[1],"*******************************first")
-    print(reviewRows[2],"*******************************first")    
-
-    # for x in reviews:
-    #     sql="SELECT image From users WHERE Id='{}'".format(x[4])
-    #     mycursor.execute(sql)
-    #     # image= mycursor.fetchall()
-    #     # reviewRow.append(x[0][0])
-    #     # reviewRow.append(x[1][1])
-    #     # reviewRow.append(x[2][2])
-    #     # reviewRow.append(x[3][3])
-    #     # reviewRow.append(x[4][]4)
-    #     # reviewRow.append(image)
-    #     # reviewRows.append(reviewRow)
-    #     # reviewRow.clear()
-
-    # for review in reviewRows:
-    #     print("\n",review)
-    print("***************************** ",userexist," ************************************************")
+   
+    
+    
     return render_template('home.html', FavouritProduct=favouritProducts,reviews=reviewRows)
 
 
@@ -83,115 +61,8 @@ def layout():
     return render_template('layout.html')
 
 
-@app.route('/cd')
-def CustomerDashboard():
-    mycursor = mydb.cursor()
-    sql = "SELECT * FROM products WHERE favourite =1"
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
-    for x in myresult:
-        print("ID", x[0])
-        print("Name", x[1])
-        print("Price", x[2])
-        print("Price", x[6])
-        print("Price", x[7])
-        print("Price", x[8])
-    print("***************************** ",userexist," ************************************************")
-    return render_template('CustomerDashboard.html', FavouritProduct=myresult)
 
 
-@app.route('/pd/<string:id>' , methods=["POST", "GET"])
-def productDetail(id):
-    global userexist,HowManyProducts
-    if request.method == "POST":
-        if userexist !=0:
-            #check user order exist or not 
-            mycursor = mydb.cursor()
-            sql = "SELECT Id FROM userorder WHERE userID ={} AND status='NotConfirmed'".format(userexist)
-            mycursor.execute(sql)
-            orderID = mycursor.fetchall()
-            if not orderID:
-                # create userorder if not exist
-                mycursor = mydb.cursor()
-                now = datetime.datetime.now()
-                sql = """INSERT INTO userorder (date, userID, status, comment)  VALUES ( %s, %s, %s, %s)"""
-                val = (now.strftime("%Y-%m-%d"), userexist , "NotConfirmed","Noconfirm yet")
-                mycursor.execute(sql, val)
-                mydb.commit()
-                # Fetch  userorder id if exist
-                mycursor = mydb.cursor()
-                sql = "SELECT Id FROM userorder WHERE userID ={} AND status='NotConfirmed'".format(userexist)
-                mycursor.execute(sql)
-                orderID = mycursor.fetchall()
-                # Add to card product in orderdetail table 
-                req = request.form
-                productID =id
-                color = req.get('color')
-                size = req.get('size')
-                quantity = req.get('quantity')
-                mycursor = mydb.cursor()
-                sql = """INSERT INTO orderdetail (productID, color, size, quantity,UserOrderID)  VALUES ( %s, %s, %s, %s, %s)"""
-                values=(productID,color,size,quantity,orderID[0][0])
-                mycursor.execute(sql,values)
-                mydb.commit()
-                # count how many item in cart
-                mycursor = mydb.cursor()
-                sql = "SELECT COUNT(*) FROM orderdetail WHERE UserOrderID ={}".format(orderID[0][0])
-                mycursor.execute(sql)
-                HowManyProducts = mycursor.fetchall()
-                
-            else:
-                req = request.form
-                productID =id
-                color = req.get('color')
-                size = req.get('size')
-                quantity = req.get('quantity')
-                mycursor = mydb.cursor()
-                sql = """INSERT INTO orderdetail (productID, color, size, quantity,UserOrderID)  VALUES ( %s, %s, %s, %s, %s)"""
-                values=(productID,color,size,quantity,orderID[0][0])
-                mycursor.execute(sql,values)
-                mydb.commit()
-
-
-
-                mycursor = mydb.cursor()
-                sql = "SELECT COUNT(*) FROM orderdetail WHERE UserOrderID ={} ".format(orderID[0][0])
-                mycursor.execute(sql)
-                HowManyProducts = mycursor.fetchall()
-
-            mycursor = mydb.cursor()
-            sql = "SELECT * FROM products WHERE Id =%s"        #productDetail
-            value = (id,)
-            mycursor.execute(sql, value)
-            myresult = mycursor.fetchall()
-            HowManyProducts=HowManyProducts[0][0]               # global veriable
-            relatedProductsID=myresult[0][10]
-                                                                                    # Fatching Realted Products  <<----------
-            mycursor = mydb.cursor()
-            sql = "SELECT * FROM products WHERE categoryID =%s"        #productDetail
-            value = (relatedProductsID,)
-            mycursor.execute(sql, value)
-            relatedProducts = mycursor.fetchall()
-            print(relatedProducts,"<-----------------------------------")
-            return render_template('productDetail.html', data=myresult[0],message="You product has been added to cart successfully,if you don't want to continue shoping then vist your cart to confirm order.",HowManyProductsInCart=HowManyProducts,relatedProducts=relatedProducts)
-        else:
-            return render_template('login.html',message="Kindly Login yourself to confirm your order!")
-    else:
-        mycursor = mydb.cursor()
-        sql = "SELECT * FROM products WHERE Id =%s"        #productDetail
-        value = (id,)
-        mycursor.execute(sql, value)
-        myresult = mycursor.fetchall()
-        relatedProductsID=myresult[0][10]
-                                                                                 # Fatching Realted Products  <<----------
-        mycursor = mydb.cursor()
-        sql = "SELECT * FROM products WHERE categoryID =%s"        #productDetail
-        value = (relatedProductsID,)
-        mycursor.execute(sql, value)
-        relatedProducts = mycursor.fetchall()
-        print(relatedProducts[0][7],"<-----------------------------------")
-        print("***************************** ",userexist," ************************************************")
-        return render_template('productDetail.html', data=myresult[0],HowManyProductsInCart=HowManyProducts,relatedProducts=relatedProducts)
 
 @app.route('/contact')
 def contact():
@@ -212,13 +83,12 @@ def login():
             mycursor.execute(sql)
             user = mycursor.fetchall()
             userexist = user[0][0]
-            print("*****************************",userexist," ************************************************")
-            return render_template('CustomerDashboard.html',Name=user[0][1])
+
+            return redirect(url_for('CustomerDashboard'))
+            # return render_template('CustomerDashboard.html',Name=user[0][1])
         except:
-            print("*****************************", userexist ," ************************************************")
             return render_template('login.html',error="Email or password is incorrect.")
     else:
-        print("***************************** ",userexist," ************************************************")
         return render_template('login.html')
 
 
@@ -253,15 +123,11 @@ def register():
         try:
             mycursor.execute(sql, val)
             mydb.commit()
-            print(mycursor.rowcount, "record inserted.")
-            print("***************************** ",userexist," ************************************************")
             return render_template('login.html')
         except:
-            print("***************************** ",userexist," ************************************************")
             return render_template('register.html', error="User allready exise!")
 
     else:
-        print("***************************** ",userexist," ************************************************")
         return render_template('register.html')
 
 
@@ -356,9 +222,7 @@ def cart():
 #         MaxRange = req.get('maxRange')
 #         ProductSize = req.get('size')
 #         Brand = req.get('brand')
-#         print(Category,"----------------------------------------------------------------------->>>>>>>>>>>>>>>>")
-#         print(Product)
-#         print(MinRange,MaxRange,ProductSize,Brand)
+#        
 #         return render_template('shop.html')
 #     else:
 #         return render_template('shop.html')
@@ -379,10 +243,6 @@ def shop(id):
         MaxRange = req.get('maxRange')
         ProductSize = req.get('size')
         Brand = req.get('brand')
-        print(Category,"----------------------------------------------------------------------->>>>>>>>>>>>>>>>")
-        print(Product)
-        print(MinRange,MaxRange,ProductSize,Brand)
-        print("***************************** ",userexist,HowManyProducts," ************************************************")
         return render_template('shop.html',HowManyProductsInCart=HowManyProducts)
     else:
         if(id!='0'):
@@ -391,13 +251,6 @@ def shop(id):
             mycursor.execute(sql)
             myresult = mycursor.fetchall()
 
-            for x in myresult:
-                print("Id = ", x[0], )
-                print("Product Name = ", x[1])
-                print("Price  = ", x[2])
-                print("Quantity  = ", x[3], "\n")
-                print("img1  = ", x[3], "\n")
-                print("***************************** ",userexist,HowManyProducts," ************************************************")
             return render_template('shop.html',products=myresult,HowManyProductsInCart=HowManyProducts)
         elif(id=='0'):
             mycursor = mydb.cursor()
@@ -405,21 +258,119 @@ def shop(id):
             mycursor.execute(sql)
             myresult = mycursor.fetchall()
 
-            for x in myresult:
-                print("Id = ", x[0], )
-                print("Product Name = ", x[1])
-                print("Price  = ", x[2])
-                print("Quantity  = ", x[3], "\n")
-                print("img1  = ", x[3], "\n")
-            print("***************************** ",userexist,HowManyProducts," ************************************************")
+            
             return render_template('shop.html',products=myresult,HowManyProductsInCart=HowManyProducts)
         else:
-            print("***************************** ",userexist," ************************************************")
             return render_template('shop.html',HowManyProductsInCart=HowManyProducts)
 
 @app.route('/search')
 def search():
     return render_template('search.html')
+
+@app.route('/cd')
+def CustomerDashboard():
+    print(userexist)
+    mycursor = mydb.cursor()
+    sql = "SELECT * FROM products WHERE favourite =1"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    print(myresult)
+    return render_template('CustomerDashboard.html', FavouritProduct=myresult)
+
+@app.route('/pd/<string:id>' , methods=["POST", "GET"])
+def productDetail(id):
+    # print(userexist)
+    productReviews_list=sentiment_analyser.return_reviewList(id)
+    percentageDic = sentiment_analyser.analyser(id)
+    
+    global userexist,HowManyProducts
+    if request.method == "POST":
+        if userexist !=0:
+            #check user order exist or not 
+            mycursor = mydb.cursor()
+            sql = "SELECT Id FROM userorder WHERE userID ={} AND status='NotConfirmed'".format(userexist)
+            mycursor.execute(sql)
+            orderID = mycursor.fetchall()
+            if not orderID:
+                # create userorder if not exist
+                mycursor = mydb.cursor()
+                now = datetime.datetime.now()
+                sql = """INSERT INTO userorder (date, userID, status, comment)  VALUES ( %s, %s, %s, %s)"""
+                val = (now.strftime("%Y-%m-%d"), userexist , "NotConfirmed","Noconfirm yet")
+                mycursor.execute(sql, val)
+                mydb.commit()
+                # Fetch  userorder id if exist
+                mycursor = mydb.cursor()
+                sql = "SELECT Id FROM userorder WHERE userID ={} AND status='NotConfirmed'".format(userexist)
+                mycursor.execute(sql)
+                orderID = mycursor.fetchall()
+                # Add to card product in orderdetail table 
+                req = request.form
+                productID =id
+                color = req.get('color')
+                size = req.get('size')
+                quantity = req.get('quantity')
+                mycursor = mydb.cursor()
+                sql = """INSERT INTO orderdetail (productID, color, size, quantity,UserOrderID)  VALUES ( %s, %s, %s, %s, %s)"""
+                values=(productID,color,size,quantity,orderID[0][0])
+                mycursor.execute(sql,values)
+                mydb.commit()
+                # count how many item in cart
+                mycursor = mydb.cursor()
+                sql = "SELECT COUNT(*) FROM orderdetail WHERE UserOrderID ={}".format(orderID[0][0])
+                mycursor.execute(sql)
+                HowManyProducts = mycursor.fetchall()
+                
+            else:
+                req = request.form
+                productID =id
+                color = req.get('color')
+                size = req.get('size')
+                quantity = req.get('quantity')
+                mycursor = mydb.cursor()
+                sql = """INSERT INTO orderdetail (productID, color, size, quantity,UserOrderID)  VALUES ( %s, %s, %s, %s, %s)"""
+                values=(productID,color,size,quantity,orderID[0][0])
+                mycursor.execute(sql,values)
+                mydb.commit()
+
+
+
+                mycursor = mydb.cursor()
+                sql = "SELECT COUNT(*) FROM orderdetail WHERE UserOrderID ={} ".format(orderID[0][0])
+                mycursor.execute(sql)
+                HowManyProducts = mycursor.fetchall()
+
+            mycursor = mydb.cursor()
+            sql = "SELECT * FROM products WHERE Id =%s"        #productDetail
+            value = (id,)
+            mycursor.execute(sql, value)
+            myresult = mycursor.fetchall()
+            HowManyProducts=HowManyProducts[0][0]               # global veriable
+            relatedProductsID=myresult[0][10]
+            # Fetching Realted Products  <<----------
+            mycursor = mydb.cursor()
+            sql = "SELECT * FROM products WHERE categoryID =%s"        #productDetail
+            value = (relatedProductsID,)
+            mycursor.execute(sql, value)
+            relatedProducts = mycursor.fetchall()
+            return render_template('productDetail.html',percentageDic=percentageDic,reviewsList=productReviews_list, data=myresult[0],message="You product has been added to cart successfully,if you don't want to continue shoping then vist your cart to confirm order.",HowManyProductsInCart=HowManyProducts,relatedProducts=relatedProducts)
+        else:
+            return render_template('login.html',message="Kindly Login yourself to confirm your order!")
+    else:
+        mycursor = mydb.cursor()
+        sql = "SELECT * FROM products WHERE Id =%s"        #productDetail
+        value = (id,)
+        mycursor.execute(sql, value)
+        myresult = mycursor.fetchall()
+        relatedProductsID=myresult[0][10]
+        # Fatching Realted Products  <<----------
+        mycursor = mydb.cursor()
+        sql = "SELECT * FROM products WHERE categoryID =%s"        #productDetail
+        value = (relatedProductsID,)
+        mycursor.execute(sql, value)
+        relatedProducts = mycursor.fetchall()
+        return render_template('productDetail.html',percentageDic=percentageDic,reviewsList=productReviews_list, data=myresult[0],HowManyProductsInCart=HowManyProducts,relatedProducts=relatedProducts)
+
 
 
 @app.route('/wr')
@@ -429,6 +380,11 @@ def write_review():
 @app.route('/admin')
 def admin():
     return render_template('admin/layout.htm')
+
+# @app.route('/_get_current_user')
+# def get_current_user():
+#     pro
+#     return jsonify(percentageDic)
 
 
 
