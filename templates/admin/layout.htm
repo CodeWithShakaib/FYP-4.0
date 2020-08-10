@@ -14,7 +14,7 @@
 
     <style>
          ::-webkit-scrollbar {
-            width: 7px;
+            width: 5px;
         }
         /* Track */
         
@@ -31,10 +31,91 @@
          ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+        
+        .addProductFont {
+            font-size: 14px;
+            font-weight: bold;
+        }
     </style>
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['geochart'],
+            // Note: you will need to get a mapsApiKey for your project.
+            // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+            'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+        });
+        google.charts.setOnLoadCallback(drawRegionsMap);
+
+        function drawRegionsMap() {
+            var data = google.visualization.arrayToDataTable([
+                ['Country', 'Popularity'],
+                ['Germany', 200],
+                ['United States', 300],
+                ['Brazil', 400],
+                ['Canada', 500],
+                ['France', 600],
+                ['RU', 700]
+            ]);
+
+            var options = {};
+
+            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+            chart.draw(data, options);
+        }
+
+
+        google.charts.load("current", {
+            packages: ["corechart"]
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ["Element", "Density", {
+                    role: "style"
+                }],
+                ["Rawalpindi", 8, "#b87333"],
+                ["Islamabad", 10, "silver"],
+                ["Multan", 19, "gold"],
+
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1, {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                },
+                2
+            ]);
+
+            var options = {
+                title: "This chart shows the sales with respect to cities.",
+                width: 600,
+                height: 400,
+                bar: {
+                    groupWidth: "95%"
+                },
+                legend: {
+                    position: "none"
+                },
+            };
+            var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+            chart.draw(view, options);
+        }
+    </script>
 </head>
 
 <body>
+    <div id='myDiv'>
+        <!-- Plotly chart will be drawn inside this DIV -->
+    </div>
     <div class="row m-3 ">
         <div class="col-md-2 rounded sticky-top pt-3" style="height: 95vh;background-color: #191919; color: white;">
             <div class="text-center">
@@ -146,37 +227,74 @@
                         </div>
                     </div>
 
+                    
+
+
                     <!-- Products Collapes -->
-                        <div class="collapse" id="collapseProducts">
-                            <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:purple;">
-                              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                            </div>
+                    <div class="collapse" id="collapseProducts">
+                        <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:purple;">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
                         </div>
+                    </div>
                     <!--end  -->
 
                     <!-- Orders Collapes -->
                     <div class="collapse" id="collapseOrders">
-                            <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:#06c200;">
-                              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                            </div>
+                        <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:#06c200;">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
                         </div>
+                    </div>
                     <!--end  -->
 
                     <!-- Members Collapes -->
                     <div class="collapse" id="collapseMembers">
-                            <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:darkorange;">
-                              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                            </div>
+                        <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:darkorange;">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
                         </div>
+                    </div>
                     <!--end  -->
 
                     <!-- Sales Collapes -->
                     <div class="collapse" id="collapseSales">
-                            <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:#1287A5;">
-                              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                            </div>
+                        <div class="card card-body mb-3" style="background-color: #EAF0F1;border-top: 5px solid;border-top-color:#1287A5;">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
                         </div>
+                    </div>
                     <!--end  -->
+                    
+                    <!-- Charts starts from here -->
+                    <div class="container">
+                            <div class="row">
+                            <div class="col-sm-6">
+                                <label class="addProductFont">Geographical Chart</label><br>
+                                <p>This chart shows popularity of our applications in various regions</p>
+                                <div id="regions_div" class="w-100" style=""></div>
+                            </div>
+                            <div class="col-sm-6" style="overflow: hidden;">
+                                <div id="barchart_values" class="w-100" style=""></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="addProductFont">Geographical Chart</label><br>
+                                <p>This chart shows popularity of our applications in various regions</p>
+                                <div id='myDiv'>
+                                    <!-- Plotly chart will be drawn inside this DIV -->
+                                </div>
+
+
+                            </div>
+                            <div class="col-sm-6" style="">
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- end charts -->
 
 
                 </div>
@@ -189,14 +307,386 @@
 
                     <h4 style="font-family:Microsoft YaHei; font-weight:bold;color:#222222c0;">Products Panel</h4>
                     <hr>
+                    <div>
+                        <div class="input-group w-50 float-left">
+                            <input type="text" class="form-control" placeholder="Search by product name" aria-label="Dollar amount (with dot and two decimal places)">
+                            <div class="input-group-append">
+                                <span class="input-group-text" style="background-color:#0A79DF;">
+                                    <img style="width:18px; " class="" src="{{ url_for('static',filename='icons/searchadmin.png')}}" alt="" srcset="">
+                                </span>
+                            </div>
+                        </div>
+                        <a name="" id="addbtn" style=" background-color: #45CE30;color:white; font-weight: bold;" class="btn float-right mb-3" href="#" role="button" data-toggle="modal" data-target="#addProduct"><img style="width:18px; " class="mr-2" src="{{ url_for('static',filename='icons/catagoriesicon.png')}}" alt="" srcset="">Add</a>
+                        <a name="" id="" style="color:red;background-color:#EAF0F1; font-weight: bold;" class="btn float-right mb-3 mr-3" href="#" role="button"><img style="width:20px; " class="mr-2" src="{{ url_for('static',filename='icons/crossicon.png')}}" alt="" srcset="">Delete</a>
+                    </div>
+
+                    <!--Add product Modal -->
+                    <div class="modal fade bd-example-modal-lg" style="" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content modal-lg">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="inputName" class="addProductFont">Product's Name</label>
+                                            <input type="text" class="form-control" id="inputName" placeholder="Enter name">
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="form-group flex-fill">
+                                                <label for="inputPrice" class="addProductFont">Product's Price</label>
+                                                <input type="text" class="form-control" id="inputPrice" placeholder="Enter price">
+                                            </div>
+                                            <div class="form-group flex-fill ml-2">
+                                                <label for="inputDiscount" class="addProductFont">Product's Discount </label>
+                                                <input type="text" class="form-control" id="inputDiscount" placeholder="Enter discount">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productDescription" class="addProductFont">Product's Description</label>
+                                            <textarea class="form-control" id="productDescription" rows="5" placeholder="Enter description"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productImage" class="addProductFont">Product's Image</label>
+                                            <input type="file" class="form-control-file" style="font-size:14px;" id="productImage">
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="favouritInput">
+                                            <label class="custom-control-label" style="font-size:14px;" for="favouritInput">Add to favourit</label>
+                                        </div>
+
+                                        <button type="button" style="background-color:#45CE30; color:white;" class="addProductFont btn mb-3 mt-3 float-right">Add</button>
+                                    </form>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table table-striped">
+                        <thead class="thead-dark text-center">
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Discount</th>
+                                <th scope="col">Favourit</th>
+                                <th scope="col">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    <div class="custom-control custom-checkbox ">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1"></label>
+                                    </div>
+                                </th>
+                                <td>
+                                    <img style="width:120px; " class="m-0" src="{{ url_for('static',filename='img/product-1.jpg')}}" alt="" srcset="">
+                                </td>
+                                <td>Pure Leather Bag</td>
+                                <td>2000 Rs.</td>
+                                <td>Intimate Design, Shockproof Inside , Think Plush Design Soft Scratch Resistant, Fine Workmanship , Excellent Quality, All-Round Protection Of Your Machine.</td>
+                                <td>0 Rs.</td>
+                                <td>
+                                    <img style="width:20px; " class="" src="{{ url_for('static',filename='icons/tickicon.png')}}" alt="" srcset="">
+                                </td>
+                                <td>
+                                    <a name="" id="" style="" class="" href="#" role="button" data-toggle="modal" data-target="#editProduct"><img style="width:20px; " class="" src="{{ url_for('static',filename='icons/edit.png')}}" alt="" srcset=""></a>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    <div class="custom-control custom-checkbox ">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1"></label>
+                                    </div>
+                                </th>
+                                <td>
+                                    <img style="width:120px; " class="m-0" src="{{ url_for('static',filename='img/watches_slider13.png')}}" alt="" srcset="">
+                                </td>
+                                <td>Sky-Dweller</td>
+                                <td>3500 Rs.</td>
+                                <td>This distinctive watch is characterized by its second time zone display on an off-centre disc on the dial...</td>
+                                <td>0 Rs.</td>
+                                <td>
+                                    <img style="width:20px; " class="" src="{{ url_for('static',filename='icons/tickicon.png')}}" alt="" srcset="">
+                                </td>
+                                <td>
+                                    <a name="" id="" style="" class="" href="#" role="button" data-toggle="modal" data-target="#editProduct"><img style="width:20px; " class="" src="{{ url_for('static',filename='icons/edit.png')}}" alt="" srcset=""></a>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    <div class="custom-control custom-checkbox ">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1"></label>
+                                    </div>
+                                </th>
+                                <td>
+                                    <img style="width:120px; " class="m-0" src="{{ url_for('static',filename='img/wallet-1.png')}}" alt="" srcset="">
+                                </td>
+                                <td>Leather brown wallet</td>
+                                <td>1500 Rs.</td>
+                                <td>The modern terms "jacket" and "coat" are often used interchangeably as terms, although the term "coat" tends to be used to refer to longer garments.</td>
+                                <td>0 Rs.</td>
+                                <td>
+                                    <img style="width:20px; " class="" src="{{ url_for('static',filename='icons/tickicon.png')}}" alt="" srcset="">
+                                </td>
+                                <td>
+                                    <a name="" id="" style="" class="" href="#" role="button" data-toggle="modal" data-target="#editProduct"><img style="width:20px; " class="" src="{{ url_for('static',filename='icons/edit.png')}}" alt="" srcset=""></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+
+
+                <!--Add edit Modal -->
+                <div class="modal fade bd-example-modal-lg" style="" id="editProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content modal-lg">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="inputName" class="addProductFont">Product's Name</label>
+                                        <input type="text" class="form-control" id="inputName" placeholder="Enter name">
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="form-group flex-fill">
+                                            <label for="inputPrice" class="addProductFont">Product's Price</label>
+                                            <input type="text" class="form-control" id="inputPrice" placeholder="Enter price">
+                                        </div>
+                                        <div class="form-group flex-fill ml-2">
+                                            <label for="inputDiscount" class="addProductFont">Product's Discount </label>
+                                            <input type="text" class="form-control" id="inputDiscount" placeholder="Enter discount">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="productDescription" class="addProductFont">Product's Description</label>
+                                        <textarea class="form-control" id="productDescription" rows="5" placeholder="Enter description"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="productImage" class="addProductFont">Product's Image</label>
+                                        <input type="file" class="form-control-file" style="font-size:14px;" id="productImage">
+                                    </div>
+
+                                    <div class="custom-control custom-checkbox custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="favouritInput">
+                                        <label class="custom-control-label" style="font-size:14px;" for="favouritInput">Add to favourit</label>
+                                    </div>
+
+                                    <button type="button" style="background-color:#F37E00; color:white;" class="addProductFont btn mb-3 mt-3 float-right">Edit</button>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--- end model -->
+
+
 
 
                 <div class="col-md-10 " id="orders" style="overflow: auto;display:none;">
 
                     <h4 style="font-family:Microsoft YaHei; font-weight:bold;color:#222222c0;">Orders Panel</h4>
                     <hr>
+
+
+
+                    <div>
+                        <div class="input-group w-50 float-left">
+                            <input type="text" class="form-control" placeholder="Search by product name" aria-label="Dollar amount (with dot and two decimal places)">
+                            <div class="input-group-append">
+                                <span class="input-group-text" style="background-color:#0A79DF;">
+                                    <img style="width:18px; " class="" src="{{ url_for('static',filename='icons/searchadmin.png')}}" alt="" srcset="">
+                                </span>
+                            </div>
+                        </div>
+                        <a name="" id="addbtn" style=" background-color: #45CE30;color:white; font-weight: bold;" class="btn float-right mb-3" href="#" role="button" data-toggle="modal" data-target="#addProduct"><img style="width:18px; " class="mr-2" src="{{ url_for('static',filename='icons/catagoriesicon.png')}}" alt="" srcset="">Add</a>
+                        <a name="" id="" style="color:red;background-color:#EAF0F1; font-weight: bold;" class="btn float-right mb-3 mr-3" href="#" role="button"><img style="width:20px; " class="mr-2" src="{{ url_for('static',filename='icons/crossicon.png')}}" alt="" srcset="">Delete</a>
+                    </div>
+
+                    <!--Add product Modal -->
+                    <div class="modal fade bd-example-modal-lg" style="" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content modal-lg">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="inputName" class="addProductFont">Product's Name</label>
+                                            <input type="text" class="form-control" id="inputName" placeholder="Enter name">
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="form-group flex-fill">
+                                                <label for="inputPrice" class="addProductFont">Product's Price</label>
+                                                <input type="text" class="form-control" id="inputPrice" placeholder="Enter price">
+                                            </div>
+                                            <div class="form-group flex-fill ml-2">
+                                                <label for="inputDiscount" class="addProductFont">Product's Discount </label>
+                                                <input type="text" class="form-control" id="inputDiscount" placeholder="Enter discount">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productDescription" class="addProductFont">Product's Description</label>
+                                            <textarea class="form-control" id="productDescription" rows="5" placeholder="Enter description"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productImage" class="addProductFont">Product's Image</label>
+                                            <input type="file" class="form-control-file" style="font-size:14px;" id="productImage">
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="favouritInput">
+                                            <label class="custom-control-label" style="font-size:14px;" for="favouritInput">Add to favourit</label>
+                                        </div>
+
+                                        <button type="button" style="background-color:#45CE30; color:white;" class="addProductFont btn mb-3 mt-3 float-right">Add</button>
+                                    </form>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-striped">
+                        <thead class="thead-dark text-center">
+                            <tr>
+                                <th scope="col">Order date</th>
+                                <th scope="col">Product's image</th>
+                                <th scope="col">Product's name</th>
+                                <th scope="col">No of items</th>
+                                <th scope="col">Total amount</th>
+                                <th scope="col">Product's color</th>
+                                <th scope="col">Product's size</th>
+                                <th scope="col">Personal Information</th>
+                                <th scope="col">Deliver Order</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr>
+                                <td>
+                                    Tuesday, 2020-08-4
+                                </td>
+                                <td><img style="width:120px; " class="m-0" src="{{ url_for('static',filename='img/product-1.jpg')}}" alt="" srcset=""></td>
+                                <td>Pure Leather Bag</td>
+                                <td>2</td>
+                                <td>4000 Rs.</td>
+                                <td>Leather Brown.</td>
+                                <td>Medium</td>
+
+                                <td>
+                                    <a name="" id="" style="" class="" href="#" role="button" data-toggle="modal" data-target="#customerInformation"><img style="width:20px; " class="" src="{{ url_for('static',filename='icons/eye.png')}}" alt="" srcset=""></a>
+                                </td>
+
+                                <td>
+                                    <div class="custom-control custom-checkbox ">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1"></label>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
                 </div>
+
+                <!--Add customer information Modal -->
+                <div class="modal fade bd-example-modal-lg" style="" id="customerInformation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content modal-lg">
+                            <div class="modal-header">
+                                <h5 class="modal-title addProductFont" id="exampleModalLabel">Customer's Information</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <table class="table  table-striped">
+                                        <tbody>
+                                            <tr>
+
+
+                                                <td> <label class="addProductFont m-0">Customer Name</label></td>
+                                                <td>Shakaib Hassan</td>
+                                            </tr>
+                                            <tr>
+
+                                                <td><label class="addProductFont m-0">Area</label></td>
+                                                <td>Dhock Ali Akbar</td>
+                                            </tr>
+                                            <tr>
+
+                                                <td><label class="addProductFont m-0">City</label></td>
+                                                <td>Rawalpindi</td>
+                                            </tr>
+                                            <tr>
+
+
+                                                <td><label class="addProductFont m-0">Country</label></td>
+                                                <td>Pakistan</td>
+                                            </tr>
+                                            <tr>
+
+                                                <td> <label class="addProductFont m-0">Complete Address :</label></td>
+                                                <td>SS-42, Sir Sayyad Street, Dhock Ali Akber, Kuri Road, Rawalpindi.</td>
+                                            </tr>
+                                            <tr>
+
+                                                <td><label class="addProductFont m-0">Phone No :</label></td>
+                                                <td>0335-6311182</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button type="button" style="background-color:rgb(21, 255, 0); color:white;" class="addProductFont btn mb-3 mt-3">Copy to clipboard</button>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--- end model -->
+
+
+
 
                 <div class="col-md-10 " id="profile" style="overflow: auto;display:none;">
 
@@ -207,7 +697,7 @@
             </div>
 
 
-            
+
             <!-- Optional JavaScript -->
             <!-- jQuery first, then Popper.js, then Bootstrap JS -->
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -251,9 +741,9 @@
 
 
                 }
-                $(document).ready(function(){
-                    $('[data-toggle="tooltip"]').tooltip();   
-                  });
+                $(document).ready(function() {
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
             </script>
 
 </body>
