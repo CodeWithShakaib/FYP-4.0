@@ -1,197 +1,86 @@
-{% extends "layout.html" %}
-
-{% block content %}
+{% extends "layout.html" %} {% block content %}
 
 <div class="container mt-5 mb-3">
-<h5>Purchsed Products</h5>
-<hr>
-<div class="row">
+  {% if alertForSubmitReview == 1 %}
+  <div class="alert alert-success" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>Submitted!</strong> Thank you for giving this product a review.
+  </div>
+  {% endif %}
+  <h5>Purchsed Products</h5>
+  <hr />
+  {% for purchesedProduct in purchesedProducts %}
+  <div class="row">
     <div class="col-9">
-      <ul class="list-unstyled ml-1">
-        <li class="media">
-          <img
-            class="mr-3"
-            src="static/img/product-1.jpg"
-            alt="Generic placeholder image"
-            width="20%"
-          />
-          <div class="media-body">
-            <b class="mt-0 mb-1">List-based media object</b><br>
-            <label>Lenova - 26 product Sold</label>
-            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus.</p>
-            
-            
-            <b style="color: gray;">Write Review</b>
-            <textarea class="form-control mt-2" id="exampleFormControlTextarea1" rows="3"></textarea>
-            <select class="custom-select mt-3" style="width:200px;" id="inlineFormCustomSelectPref">
-            <option selected>5</option>
-            <option value="4">4</option>
-            <option value="3">3</option>
-            <option value="2">2</option>
-            <option value="1">1</option>
-          </select><br>
-            <button class="btn btn-primary mt-3"><b>Submit</b></button>
-        
-        
-        </div>
-        </li>
-      </ul>
+      <form
+        action="/submitReview/{{purchesedProduct[0]}}/{{userID}}"
+        method="post"
+        id="product{{purchesedProduct[0]}}"
+      >
+        <ul class="list-unstyled ml-1">
+          <li class="media">
+            <img
+              class="mr-3"
+              src="{{url_for('static',filename = purchesedProduct[5])}}"
+              alt="Generic placeholder image"
+              width="220px"
+            />
+            <div class="media-body">
+              <b class="mt-0 mb-1">{{purchesedProduct[1]}}</b><br />
+              <p>{{purchesedProduct[4][:80]}}...</p>
+
+              <b style="color: gray;">Write Review</b>
+              <textarea
+                name="reviewText"
+                class="form-control mt-2"
+                id="exampleFormControlTextarea1"
+                rows="5"
+                placeholder="You can write here"
+              ></textarea>
+              <select
+                class="custom-select mt-3"
+                style="width: 200px;"
+                id="inlineFormCustomSelectPref"
+                name="rating"
+              >
+                <option selected>5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option> </select
+              ><br />
+              <button class="btn btn-primary mt-3" type="submit">
+                <b>Submit</b>
+              </button>
+            </div>
+          </li>
+        </ul>
+      </form>
     </div>
     <div class="col-3">
-      <h5>Rs 1500</h5>
-      <h6><strike>Rs 2000</strike></h6>
+      <h5>Rs. {{purchesedProduct[2]}}</h5>
+      <h6><strike>Rs {{purchesedProduct[2] * 1.2}}</strike></h6>
+
       <span class="fa fa-star" style="color: #ffce1b;"></span>
       <span class="fa fa-star" style="color: #ffce1b;"></span>
       <span class="fa fa-star" style="color: #ffce1b;"></span>
       <span class="fa fa-star"></span>
       <span class="fa fa-star"></span>4.6
+
       <br />
-      (1,000+ Ratings)
-      <br />
-      <a href="#" style="text-decoration: none;" class="mt-1"><b>View</b></a>
+      <a
+        href="/pd/{{purchesedProduct[0]}}"
+        style="text-decoration: none;"
+        class="mt-1"
+        ><b>View</b></a
+      >
     </div>
   </div>
-      <hr>
-      <div class="row">
-        <div class="col-9">
-          <ul class="list-unstyled ml-1">
-            <li class="media">
-              <img
-                class="mr-3"
-                src="static/img/product-1.jpg"
-                alt="Generic placeholder image"
-                width="20%"
-              />
-              <div class="media-body">
-                <b class="mt-0 mb-1">List-based media object</b><br>
-                <label>Lenova - 26 product Sold</label>
-                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus.</p>
-                
-                
-                <b style="color: gray;">Write Review</b>
-                <textarea class="form-control mt-2" id="exampleFormControlTextarea1" rows="3"></textarea>
-                <select class="custom-select mt-3" style="width:200px;" id="inlineFormCustomSelectPref">
-                <option selected>5</option>
-                <option value="4">4</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-                <option value="1">1</option>
-              </select><br>
-                <button class="btn btn-primary mt-3"><b>Submit</b></button>
-            
-            
-            </div>
-            </li>
-          </ul>
-        </div>
-        <div class="col-3">
-          <h5>Rs 1500</h5>
-          <h6><strike>Rs 2000</strike></h6>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>4.6
-          <br />
-          (1,000+ Ratings)
-          <br />
-          <a href="#" style="text-decoration: none;" class="mt-1"><b>View</b></a>
-        </div>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-9">
-          <ul class="list-unstyled ml-1">
-            <li class="media">
-              <img
-                class="mr-3"
-                src="static/img/product-1.jpg"
-                alt="Generic placeholder image"
-                width="20%"
-              />
-              <div class="media-body">
-                <b class="mt-0 mb-1">List-based media object</b><br>
-                <label>Lenova - 26 product Sold</label>
-                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus.</p>
-                
-                
-                <b style="color: gray;">Write Review</b>
-                <textarea class="form-control mt-2" id="exampleFormControlTextarea1" rows="3"></textarea>
-                <select class="custom-select mt-3" style="width:200px;" id="inlineFormCustomSelectPref">
-                <option selected>5</option>
-                <option value="4">4</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-                <option value="1">1</option>
-              </select><br>
-                <button class="btn btn-primary mt-3"><b>Submit</b></button>
-            
-            
-            </div>
-            </li>
-          </ul>
-        </div>
-        <div class="col-3">
-          <h5>Rs 1500</h5>
-          <h6><strike>Rs 2000</strike></h6>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>4.6
-          <br />
-          (1,000+ Ratings)
-          <br />
-          <a href="#" style="text-decoration: none;" class="mt-1"><b>View</b></a>
-        </div>
-      </div>
-      <hr>
-    <div class="row">
-        <div class="col-9">
-          <ul class="list-unstyled ml-1">
-            <li class="media">
-              <img
-                class="mr-3"
-                src="static/img/product-1.jpg"
-                alt="Generic placeholder image"
-                width="20%"
-              />
-              <div class="media-body">
-                <b class="mt-0 mb-1">List-based media object</b><br>
-                <label>Lenova - 26 product Sold</label>
-                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus.</p>
-                
-                
-                <b style="color: gray;">Write Review</b>
-                <textarea class="form-control mt-2" id="exampleFormControlTextarea1" rows="3"></textarea>
-                <select class="custom-select mt-3" style="width:200px;" id="inlineFormCustomSelectPref">
-                <option selected>5</option>
-                <option value="4">4</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-                <option value="1">1</option>
-              </select><br>
-                <button class="btn btn-primary mt-3"><b>Submit</b></button>
-            
-            
-            </div>
-            </li>
-          </ul>
-        </div>
-        <div class="col-3">
-          <h5>Rs 1500</h5>
-          <h6><strike>Rs 2000</strike></h6>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>4.6
-          <br />
-          (1,000+ Ratings)
-          <br />
-          <a href="#" style="text-decoration: none;" class="mt-1"><b>View</b></a>
-        </div>
-      </div>
+
+  <hr />
+  {% endfor %}
 </div>
 
 {% endblock %}
