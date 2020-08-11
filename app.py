@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash,jsonify
 import mysql.connector
 import datetime
+from datetime import date
 import sentiment_analyser
 percentageDic = {}
 mydb = mysql.connector.connect(
@@ -16,7 +17,7 @@ app = Flask(__name__)
 userexist=0
 HowManyProducts=0
 orderId=0
-
+alertForSubmitReview = 0
 
 
 
@@ -270,17 +271,20 @@ def search():
 @app.route('/cd')
 def CustomerDashboard():
     # print(userexist)
+    # userorders that are confirmed by admin
     ids = tuple()
     mycursor = mydb.cursor()
     sql = "SELECT * FROM userorder WHERE userID='{}' AND comment = 'yes'".format(userexist)
     mycursor.execute(sql)
     userOrderData = mycursor.fetchall()
     # print(userOrderData)
+    # endBlock 
 
+    # seprate ids from matrix and append it in a seprate tuple
     for i in userOrderData:
         ids+=(str(i[0]),)
 
-    # print(ids)
+    # fetch detail of orders that ordered by user 
     mycursor = mydb.cursor()
     sql = "SELECT * FROM orderdetail WHERE UserOrderID in {}".format(ids)
     mycursor.execute(sql)
@@ -290,13 +294,15 @@ def CustomerDashboard():
     for i in OrderdetailData:
         Pids+=(str(i[1]),)
 
+    # endBlock
+
 
     mycursor = mydb.cursor()
     sql = "SELECT id,name,price,discount,description,img1 FROM products WHERE Id in {}".format(Pids)        #productDetail
     mycursor.execute(sql)
     products= mycursor.fetchall()
 
-    print(products)
+    
 
     mycursor = mydb.cursor()
     sql = "SELECT * FROM users WHERE id='{}'".format(userexist)
@@ -345,11 +351,59 @@ def CustomerDashboard():
     if len(nonDeliveredproducts)>len(dates):
         for i in range(len(dates),len(nonDeliveredproducts)):
             dates.append(dates[0])
-    print(dates)
+    
+
+    # top rated products
+    mycursor = mydb.cursor()
+    sql = "SELECT product_id_fk FROM `productreview`"        #productDetail
+    mycursor.execute(sql)
+    ratedProducts= mycursor.fetchall()
+    ratedProductsTuple = tuple()
+    for i in set(ratedProducts):
+        ratedProductsTuple = ratedProductsTuple + i
+
+    ratingDict = {}
+    for j in ratedProductsTuple:
+        mycursor = mydb.cursor()
+        sql = "SELECT review_stars FROM `productreview` WHERE product_id_fk = {}".format(j)         #productDetail
+        mycursor.execute(sql)
+        ProductRating= mycursor.fetchall()
+        ratingAverage = 0.0
+        ratingSum = 0
+        for i in ProductRating:
+            ratingSum = ratingSum + int(i[0])
+        ratingAverage = ratingSum / len(ProductRating)
+        ratingDict[j] = int(ratingAverage)
+
+    
+    sortedRatingDict = sorted(ratingDict.items(), key=lambda x: x[1], reverse=True)
+    sortedRatingDict=sortedRatingDict[:4]
+    
+    ratedProducts =  []
+    ratedReviews = []
+    for i in sortedRatingDict:
+        ratedProducts.append(i[0])
+        ratedReviews.append(i[1])
+
+    relatedProducts=tuple(ratedProducts)
+    ratedReview = tuple(ratedReviews)
+
+    mycursor = mydb.cursor()
+    sql = "SELECT Id,img1,name,price FROM `products` WHERE Id in {}".format(relatedProducts)         #productDetail
+    mycursor.execute(sql)
+    RatedProductData= mycursor.fetchall()
+    for i in range(0,len(RatedProductData)):
+        RatedProductData[i] = RatedProductData[i] + tuple(str(ratedReviews[i]))
+
+    print(RatedProductData)
+     
+    
 
 
 
-    return render_template('CustomerDashboard.html',dates=dates,nonDeliveredProducts=nonDeliveredproducts, FavouritProduct=myresult,fullName=fullName,purchededProducts = products)
+
+
+    return render_template('CustomerDashboard.html',userID=userexist,topRatedProducts=RatedProductData,dates=dates,nonDeliveredProducts=nonDeliveredproducts, FavouritProduct=myresult,fullName=fullName,purchededProducts = products)
 
 @app.route('/pd/<string:id>' , methods=["POST", "GET"])
 def productDetail(id):
@@ -445,11 +499,70 @@ def productDetail(id):
         relatedProducts = mycursor.fetchall()
         return render_template('productDetail.html',percentageDic=percentageDic,reviewsList=productReviews_list, data=myresult[0],HowManyProductsInCart=HowManyProducts,relatedProducts=relatedProducts)
 
+@app.route('/submitReview/<string:pid>/<string:uid>',methods=['GET', 'POST'])
+def submitReview(pid,uid):
+    if request.method == 'POST':
+        reviewText = request.form['reviewText']
+        rating = request.form['rating']
+        print(reviewText," ",rating)
+        global alertForSubmitReview
+        alertForSubmitReview = 1
+
+        # 
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO `productreview`(`product_id_fk`, `user_id_fk`, `review_id`, `review_text`, `review_date`, `review_stars`) VALUES ({},{},{},'{}','{}',{})".format(pid,uid,25,reviewText,str(date.today()) ,int(rating))
+        mycursor.execute(sql)
+        mydb.commit()
+        
+
+        return redirect(url_for('write_review', id=uid))
+    else:
+        return "<h1>This is not a post method</h1>"
 
 
-@app.route('/wr')
-def write_review():
-    return render_template('write_review.html')
+@app.route('/wr/<string:id>')
+def write_review(id):
+    ids = tuple()
+    mycursor = mydb.cursor()
+    sql = "SELECT * FROM userorder WHERE userID='{}' AND comment = 'yes'".format(id)
+    mycursor.execute(sql)
+    userOrderData = mycursor.fetchall()
+    # print(userOrderData)
+    # endBlock 
+
+    # seprate ids from matrix and append it in a seprate tuple
+    for i in userOrderData:
+        ids+=(str(i[0]),)
+
+    # fetch detail of orders that ordered by user 
+    mycursor = mydb.cursor()
+    sql = "SELECT * FROM orderdetail WHERE UserOrderID in {}".format(ids)
+    mycursor.execute(sql)
+    OrderdetailData = mycursor.fetchall()
+    # print(OrderdetailData)
+    Pids = tuple()
+    for i in OrderdetailData:
+        Pids+=(str(i[1]),)
+
+    # endBlock
+
+
+    mycursor = mydb.cursor()
+    sql = "SELECT id,name,price,discount,description,img1 FROM products WHERE Id in {}".format(Pids)        #productDetail
+    mycursor.execute(sql)
+    products= mycursor.fetchall()
+    global alertForSubmitReview
+    alertForSubmitReview1 =0
+    if alertForSubmitReview == 1:
+        alertForSubmitReview1 = alertForSubmitReview
+        alertForSubmitReview=0
+    
+
+    print(alertForSubmitReview)
+
+
+
+    return render_template('write_review.html',purchesedProducts=products,userID = id,alertForSubmitReview=alertForSubmitReview1)
 
 @app.route('/admin')
 def admin():
