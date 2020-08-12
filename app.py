@@ -156,7 +156,7 @@ def cart():
             sql = "UPDATE userorder SET  status = 'Confirm',firstName='{}',lastName='{}',phoneNo={},provence='{}',city='{}',area='{}',address='{}',occupation='{}' WHERE Id={}".format(FirstName,lastName,number,Provence,city,Area,Address,Ocupation,orderId)
             mycursor.execute(sql)
             mydb.commit()
-            return render_template('CustomerDashboard.html')
+            return redirect(url_for('CustomerDashboard'))
         else:
             # //Fatching orderId of existing user
             # if(id !='0'):
@@ -277,6 +277,7 @@ def CustomerDashboard():
     sql = "SELECT * FROM userorder WHERE userID='{}' AND comment = 'yes'".format(userexist)
     mycursor.execute(sql)
     userOrderData = mycursor.fetchall()
+    
     # print(userOrderData)
     # endBlock 
 
@@ -285,21 +286,43 @@ def CustomerDashboard():
         ids+=(str(i[0]),)
 
     # fetch detail of orders that ordered by user 
-    mycursor = mydb.cursor()
-    sql = "SELECT * FROM orderdetail WHERE UserOrderID in {}".format(ids)
-    mycursor.execute(sql)
-    OrderdetailData = mycursor.fetchall()
+    if len(ids) == 1 or len(ids) ==0:
+        mycur = mydb.cursor()
+        sql = "SELECT * FROM orderdetail WHERE UserOrderID = {}".format(ids[0])
+        
+        mycur.execute(sql)
+    else:
+        mycur = mydb.cursor()
+        sql = "SELECT * FROM orderdetail WHERE UserOrderID in {}".format(ids)
+        
+        mycur.execute(sql)
+    
+
+    OrderdetailData = mycur.fetchall()
     # print(OrderdetailData)
     Pids = tuple()
     for i in OrderdetailData:
         Pids+=(str(i[1]),)
 
     # endBlock
+    
+    if len(Pids) == 1:
+        mycursor = mydb.cursor()
+        sql = "SELECT id,name,price,discount,description,img1 FROM products WHERE Id = {}".format(Pids[0])        #productDetail
+        mycursor.execute(sql)
+    elif len(Pids) ==0:
+        Pids = 0
+        mycursor = mydb.cursor()
+        sql = "SELECT id,name,price,discount,description,img1 FROM products WHERE Id = {}".format(Pids)        #productDetail
+        mycursor.execute(sql)
+        
+        
 
-
-    mycursor = mydb.cursor()
-    sql = "SELECT id,name,price,discount,description,img1 FROM products WHERE Id in {}".format(Pids)        #productDetail
-    mycursor.execute(sql)
+    else:
+        mycursor = mydb.cursor()
+        sql = "SELECT id,name,price,discount,description,img1 FROM products WHERE Id in {}".format(Pids)        #productDetail
+        mycursor.execute(sql)
+        
     products= mycursor.fetchall()
 
     
@@ -325,6 +348,7 @@ def CustomerDashboard():
     userOrderData = mycursor.fetchall()
     # print(userOrderData)
     dates = []
+    print("\n\n\n\n",userOrderData,"\n\n\n\n")
     for i in userOrderData:
         dates.append(i[1])
         ids+=(str(i[0]),)
@@ -394,7 +418,7 @@ def CustomerDashboard():
     RatedProductData= mycursor.fetchall()
     for i in range(0,len(RatedProductData)):
         RatedProductData[i] = RatedProductData[i] + tuple(str(ratedReviews[i]))
-
+    
     print(RatedProductData)
      
     
@@ -508,9 +532,15 @@ def submitReview(pid,uid):
         global alertForSubmitReview
         alertForSubmitReview = 1
 
-        # 
+        
+        myc = mydb.cursor()
+        sql = "SELECT review_id FROM productreview ORDER BY review_id DESC LIMIT 1"
+        myc.execute(sql)
+        lastID = myc.fetchall()[0][0]
+
+
         mycursor = mydb.cursor()
-        sql = "INSERT INTO `productreview`(`product_id_fk`, `user_id_fk`, `review_id`, `review_text`, `review_date`, `review_stars`) VALUES ({},{},{},'{}','{}',{})".format(pid,uid,25,reviewText,str(date.today()) ,int(rating))
+        sql = "INSERT INTO `productreview`(`product_id_fk`, `user_id_fk`, `review_id`, `review_text`, `review_date`, `review_stars`) VALUES ({},{},{},'{}','{}',{})".format(pid,uid,lastID + 1,reviewText,str(date.today()) ,int(rating))
         mycursor.execute(sql)
         mydb.commit()
         
