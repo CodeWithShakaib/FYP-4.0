@@ -1,50 +1,34 @@
 {% extends "layout.html" %} {% block content %}
 
 <div class="container mt-5 mb-3">
-  {% if alertForSubmitReview == 1 %}
-  <div class="alert alert-success" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    {% if alertForSubmitReview == 1 %}
+    <div class="alert alert-success" role="alert" id="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
-    <strong>Submitted!</strong> Thank you for giving this product a review.
-  </div>
-  {% endif %}
-  <h5>Purchsed Products</h5>
-  <hr />
-  {% for purchesedProduct in purchesedProducts %}
-  <div class="row">
-    <div class="col-9">
-      <form
-        action="/submitReview/{{purchesedProduct[0]}}/{{userID}}"
-        method="post"
-        id="product{{purchesedProduct[0]}}"
-      >
-        <ul class="list-unstyled ml-1">
-          <li class="media">
-            <img
-              class="mr-3"
-              src="{{url_for('static',filename = purchesedProduct[5])}}"
-              alt="Generic placeholder image"
-              width="220px"
-            />
-            <div class="media-body">
-              <b class="mt-0 mb-1">{{purchesedProduct[1]}}</b><br />
-              <p>{{purchesedProduct[4][:80]}}...</p>
+        <strong>Submitted!</strong> Thank you for giving this product a review.
+    </div>
+    <script>
+        setTimeout(function() {
+            $("#alert").hide();
+        }, 3000);
+    </script>
+    {% endif %}
+    <h5>Purchsed Products</h5>
+    <hr /> {% for purchesedProduct in purchesedProducts %}
+    <div class="row">
+        <div class="col-9">
+            <form action="/submitReview/{{purchesedProduct[0]}}/{{userID}}" method="post" id="product{{purchesedProduct[0]}}">
+                <ul class="list-unstyled ml-1">
+                    <li class="media">
+                        <img class="mr-3" src="{{url_for('static',filename = purchesedProduct[5])}}" alt="Generic placeholder image" width="220px" />
+                        <div class="media-body">
+                            <b class="mt-0 mb-1">{{purchesedProduct[1]}}</b><br />
+                            <p>{{purchesedProduct[4][:80]}}...</p>
 
-              <b style="color: gray;">Write Review</b>
-              <textarea
-                name="reviewText"
-                class="form-control mt-2"
-                id="exampleFormControlTextarea1"
-                rows="5"
-                placeholder="You can write here"
-              ></textarea>
-              <select
-                class="custom-select mt-3"
-                style="width: 200px;"
-                id="inlineFormCustomSelectPref"
-                name="rating"
-              >
+                            <b style="color: gray;">Write Review</b>
+                            <textarea name="reviewText" class="form-control mt-2" id="exampleFormControlTextarea1" rows="5" placeholder="You can write here"></textarea>
+                            <select class="custom-select mt-3" style="width: 200px;" id="inlineFormCustomSelectPref" name="rating">
                 <option selected>5</option>
                 <option value="4">4</option>
                 <option value="3">3</option>
