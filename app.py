@@ -422,15 +422,48 @@ def CustomerDashboard():
     for i in range(0,len(RatedProductData)):
         RatedProductData[i] = RatedProductData[i] + tuple(str(ratedReviews[i]))
     
-    print(RatedProductData)
+    # print(RatedProductData)
      
+    # Logic For recomended Product
+    UserCompleteOrderIds = tuple()
+    mycursor = mydb.cursor()
+    sql = "SELECT * FROM userorder WHERE userID='{}'".format(userexist)
+    mycursor.execute(sql)
+    userOrderCompleteData = mycursor.fetchall()
+    # print(userOrderData)
     
+    print("\n\n\n\n",userOrderCompleteData,"\n\n\n\n")
+    for i in userOrderCompleteData:
+        UserCompleteOrderIds+=(str(i[0]),)
 
+    # print(ids)
+    mycursor = mydb.cursor()
+    sql = "SELECT * FROM orderdetail WHERE UserOrderID in {}".format(UserCompleteOrderIds)
+    mycursor.execute(sql)
+    CompleteOrderdetailData = mycursor.fetchall()
+    # print(OrderdetailData)
+    
+    
+    CompletePids = tuple()
+    for i in CompleteOrderdetailData:
+        CompletePids+=(str(i[1]),)
 
+    CompleteIntrustedCids = tuple()
+    mycursor = mydb.cursor()
+    sql = "SELECT categoryID FROM products WHERE Id in {}".format(CompletePids)        #productDetail
+    mycursor.execute(sql)
+    IntrustedCategoriesIds= mycursor.fetchall()
+    
+    for i in IntrustedCategoriesIds:
+        CompleteIntrustedCids+=(str(i[0]),)
+    
+    mycursor = mydb.cursor()
+    sql = "SELECT Id,name,price,discount,description,img1 FROM `products` WHERE `categoryId` In {} AND Id NOT IN {}".format(tuple(map(int,CompleteIntrustedCids)),tuple(map(int,Pids)))        #productDetail
+    mycursor.execute(sql)
+    Recomendedproducts= mycursor.fetchall()
+    print(Recomendedproducts)
 
-
-
-    return render_template('CustomerDashboard.html',userID=userexist,topRatedProducts=RatedProductData,dates=dates,nonDeliveredProducts=nonDeliveredproducts, FavouritProduct=myresult,fullName=fullName,purchededProducts = products)
+    return render_template('CustomerDashboard.html',userID=userexist,topRatedProducts=RatedProductData,dates=dates,nonDeliveredProducts=nonDeliveredproducts, FavouritProduct=myresult,fullName=fullName,purchededProducts = products ,recomandedProducts=Recomendedproducts)
 
 # Chatbot logic here
 @app.route('/chatbot')
