@@ -51,18 +51,35 @@
          ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
-    
     </style>
-<script>
-var great = {{percentageDic.great}};
-var satisfactory = {{percentageDic.satisfactory}};
-var very_good = {{percentageDic.very_good}};
-var bad = {{percentageDic.bad}};
-var worst = {{percentageDic.worst}};
-console.log(great)
-
-
-</script>
+    <script>
+        var great = {
+            {
+                percentageDic.great
+            }
+        };
+        var satisfactory = {
+            {
+                percentageDic.satisfactory
+            }
+        };
+        var very_good = {
+            {
+                percentageDic.very_good
+            }
+        };
+        var bad = {
+            {
+                percentageDic.bad
+            }
+        };
+        var worst = {
+            {
+                percentageDic.worst
+            }
+        };
+        console.log(great)
+    </script>
 </head>
 
 <body>
@@ -116,135 +133,135 @@ console.log(great)
 
 
 
-{% if message %}
-<!-- 
+    {% if message %}
+    <!-- 
 <div class="alert alert-dismissible alert-success mt-2 container fade show" role="alert">
   {{message}}
 </div> -->
 
-<div class="alert alert-success alert-dismissible fade show container mt-1" role="alert">
-  <strong>Done!</strong> {{message}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <div class="alert alert-success alert-dismissible fade show container mt-1" role="alert">
+        <strong>Done!</strong> {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
-</div>
-
-{% endif %}
-
-
-
-<div class="container">
-  <div class="row mt-3 mb-5">
-    <div class="col-md-7">
-      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="{{ url_for('static',filename=data[6])}}" height="500px" class="d-block w-100" alt="..." />
-          </div>
-          <div class="carousel-item">
-            <img src="{{ url_for('static',filename=data[7])}}" height="500px" class="d-block w-100" alt="..." />
-          </div>
-          <div class="carousel-item">
-            <img src="{{ url_for('static',filename=data[8])}}" height="500px" class="d-block w-100" alt="..." />
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls1" role="button" data-slide="prev">
-          <img src="{{ url_for('static',filename='icons/left.png')}}" class="" alt="..." />
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls1" role="button" data-slide="next">
-          <img src="{{ url_for('static',filename='icons/right.png')}}" class="" alt="..." />
-        </a>
-      </div>
     </div>
 
-    <div class="col-md-5">
-      <form action="{{data[0]}}" method="POST">
-        
-          <h5>{{data[1]}}</h5>
-          
-          <!-- <a href="#1" class="mr-2" style="color: black;"><b>Rating</b></a> -->
-         <div>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star" style="color: #ffce1b;"></span>
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>
-          <a href="#1" style="color: black;">Rating | 4 Reviews</a>
-        </div>
-          
-          <hr />
-          <h3>Rs {{data[2]}}</h3>
-          <br/>
-          <p>
-            {{data[5]}}
-          </p>
-          
-            
-        
+    {% endif %}
 
-          
-            <label class="" style="font-weight: bold;">Color</label>
-            <select class="m-3" name="color">
+
+
+    <div class="container">
+        <div class="row mt-3 mb-5">
+            <div class="col-md-7">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="{{ url_for('static',filename=data[6])}}" height="500px" class="d-block w-100" alt="..." />
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{{ url_for('static',filename=data[7])}}" height="500px" class="d-block w-100" alt="..." />
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{{ url_for('static',filename=data[8])}}" height="500px" class="d-block w-100" alt="..." />
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls1" role="button" data-slide="prev">
+                        <img src="{{ url_for('static',filename='icons/left.png')}}" class="" alt="..." />
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls1" role="button" data-slide="next">
+                        <img src="{{ url_for('static',filename='icons/right.png')}}" class="" alt="..." />
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <form action="{{data[0]}}" method="POST">
+
+                    <h5>{{data[1]}}</h5>
+
+                    <!-- <a href="#1" class="mr-2" style="color: black;"><b>Rating</b></a> -->
+                    <div>
+                        <span class="fa fa-star" style="color: #ffce1b;"></span>
+                        <span class="fa fa-star" style="color: #ffce1b;"></span>
+                        <span class="fa fa-star" style="color: #ffce1b;"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <a href="#1" style="color: black;">Rating | 4 Reviews</a>
+                    </div>
+
+                    <hr />
+                    <h3>Rs {{data[2]}}</h3>
+                    <br/>
+                    <p>
+                        {{data[5]}}
+                    </p>
+
+
+
+
+
+                    <label class="" style="font-weight: bold;">Color</label>
+                    <select class="m-3" name="color">
               <option value="Red">Red</option>
               <option value="Green">Green</option>
               <option value="Gra">Gray</option>
             </select>
-          
 
-          
-            <label class="" style="font-weight: bold;">Size</label>
-            <select class="m-3" name="size">
+
+
+                    <label class="" style="font-weight: bold;">Size</label>
+                    <select class="m-3" name="size">
               <option value="Large">Large</option>
               <option value="Medium">Medium</option>
               <option value="Small">Small</option>
             </select>
-          
 
-        
-            <label class="" style="font-weight: bold;">Quantity</label>
-            <select class="m-3" name="quantity">
+
+
+                    <label class="" style="font-weight: bold;">Quantity</label>
+                    <select class="m-3" name="quantity">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
             </select>
-     
 
-          <button type="submit" style="width: 413px;" class="btn btn-danger m-3">
+
+                    <button type="submit" style="width: 413px;" class="btn btn-danger m-3">
             <i class="fa fa-shopping-cart"></i>
             Add to Cart
           </button>
-      </form>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<!-- Realated Products -->
-<div class="container">
-<h5 class="mt-5">Related products</h5>
-<hr />
-</div>
+    <!-- Realated Products -->
+    <div class="container">
+        <h5 class="mt-5">Related products</h5>
+        <hr />
+    </div>
 
-<div id="carouselExampleControls" class="carousel slide container" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
+    <div id="carouselExampleControls" class="carousel slide container" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
 
-      <div class="row">
-        {% for i in relatedProducts[0:4] %}
-        <form action="pd/{{i[0]}}" method=""></form>
-        <div class="col-md-3 text-center">
-          <div style="height: 150px;">
-          <img class="img-thumbnail" class="" src="{{ url_for('static',filename=i[6])}}" />
-        </div>
-          <br>
-          <div style="height: 50px;">
-            <br>
-          <b>{{i[1]}}</b>
-          </div><br />
-          <div style="height: 30px;">
-          <label>Rs.{{i[2]}}</label>
-        </div>
-          <div style="height: 50px;">
-          <button style="
+                <div class="row">
+                    {% for i in relatedProducts[0:4] %}
+                    <form action="pd/{{i[0]}}" method=""></form>
+                    <div class="col-md-3 text-center">
+                        <div style="height: 150px;">
+                            <img class="img-thumbnail" class="" src="{{ url_for('static',filename=i[6])}}" />
+                        </div>
+                        <br>
+                        <div style="height: 50px;">
+                            <br>
+                            <b>{{i[1]}}</b>
+                        </div><br />
+                        <div style="height: 30px;">
+                            <label>Rs.{{i[2]}}</label>
+                        </div>
+                        <div style="height: 50px;">
+                            <button style="
                 border: none;
                 background-color: #45ce30;
                 color: white;
@@ -253,27 +270,23 @@ console.log(great)
               ">
             <b>view</b>
           </button>
-        </div>
-        </div>
-        <form>
-          {% endfor %}
-      </div>
-    </div>
-    {% if relatedProducts|length >4 %}
-    {% set value= relatedProducts|length %4 %}
-    {% set a= 4 %}
-    {% set b= 8 %}
-    {% for i in range(0,value) %}
-    <div class="carousel-item">
+                        </div>
+                    </div>
+                    <form>
+                        {% endfor %}
+                </div>
+            </div>
+            {% if relatedProducts|length >4 %} {% set value= relatedProducts|length %4 %} {% set a= 4 %} {% set b= 8 %} {% for i in range(0,value) %}
+            <div class="carousel-item">
 
-      <div class="row">
-        {% for j in relatedProducts[a:b] %}
-        <form action="pd/{{j[0]}}" method=""></form>
-        <div class="col-md-3 text-center">
-          <img class="img-thumbnail" class="" src="{{ url_for('static',filename=j[6])}}" />
-          <b>{{j[1]}}</b><br />
-          <label>Rs.{{j[2]}}</label><br />
-          <button style="
+                <div class="row">
+                    {% for j in relatedProducts[a:b] %}
+                    <form action="pd/{{j[0]}}" method=""></form>
+                    <div class="col-md-3 text-center">
+                        <img class="img-thumbnail" class="" src="{{ url_for('static',filename=j[6])}}" />
+                        <b>{{j[1]}}</b><br />
+                        <label>Rs.{{j[2]}}</label><br />
+                        <button style="
                 border: none;
                 background-color: #45ce30;
                 color: white;
@@ -282,100 +295,80 @@ console.log(great)
               ">
             <b>view</b>
           </button>
+                    </div>
+                    <form>
+                        {% endfor %} {% set a= a+4 %} {% set b= b+4 %}
+                </div>
+            </div>
+            {% endfor %} {% endif %}
         </div>
-        <form>
-        {% endfor %}
-        {% set a= a+4 %}
-        {% set b= b+4 %}
-      </div>
+        <a class="carousel-control-prev" style="margin: -100px;" href="#carouselExampleControls" role="button" data-slide="prev">
+            <img src="{{ url_for('static',filename='icons/left.png')}}" alt="" />
+        </a>
+        <a class="carousel-control-next" style="margin: -100px;" href="#carouselExampleControls" role="button" data-slide="next">
+            <img src="{{ url_for('static',filename='icons/right.png')}}" alt="" />
+        </a>
     </div>
-    {% endfor %}
-    {% endif %}
-  </div>
-  <a class="carousel-control-prev" style="margin: -100px;" href="#carouselExampleControls" role="button"
-    data-slide="prev">
-    <img src="{{ url_for('static',filename='icons/left.png')}}" alt="" />
-  </a>
-  <a class="carousel-control-next" style="margin: -100px;" href="#carouselExampleControls" role="button"
-    data-slide="next">
-    <img src="{{ url_for('static',filename='icons/right.png')}}" alt="" />
-  </a>
-</div>
-</div>
+    </div>
 
-<!-- Scientiment Texual Analyser  -->
-<div class="container" id='1'>
-  <h5 class="mt-5">Sentiment analysis chart</h5>
-  <label>Following chart is of sentiment analysis of customer texual reviews.</label>
-  <hr />
-  <div id="piechart_3d" class="container" style="width: 900px; height: 500px;"></div>
-</div>
-</div>
-<h5 class="mt-5 container">Customer Reviews</h5>
-<hr class="container" />
+    <!-- Scientiment Texual Analyser  -->
+    <div class="container" id='1'>
+        <h5 class="mt-5">Sentiment analysis chart</h5>
+        <label>Following chart is of sentiment analysis of customer texual reviews.</label>
+        <hr />
+        <div id="piechart_3d" class="container" style="width: 900px; height: 500px;"></div>
+    </div>
+    </div>
+    <h5 class="mt-5 container">Customer Reviews</h5>
+    <hr class="container" /> {% for review in reviewsList %}
+    <div class="media container mb-5">
+        <img class="mr-3" src="{{ url_for('static',filename=review[2])}}" style="border-radius: 50%; width: 100px;" alt="Generic placeholder image" />
+        <div class="media-body">
+            <h5 class="mt-0">{{review[0]}} {{review[1]}}</h5>
+            {{review[3]}}
 
-{% for review in reviewsList %}
-<div class="media container mb-5">
-  <img class="mr-3" src="{{ url_for('static',filename=review[2])}}" style="border-radius: 50%; width: 100px;"
-    alt="Generic placeholder image" />
-  <div class="media-body">
-    <h5 class="mt-0">{{review[0]}} {{review[1]}}</h5>
-    {{review[3]}}
+            <br /> {% if review[5] == 1 %}
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span> {% elif review[5] == 2 %}
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span> {% elif review[5] == 3 %}
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span> {% elif review[5] == 4 %}
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star"></span> {% elif review[5] == 5 %}
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span>
+            <span class="fa fa-star" style="color: #ffce1b;"></span> {% else %}
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span> {% endif %}
 
-    <br />
-    {% if review[5] == 1 %}
-     <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    {% elif review[5] == 2 %}
-     <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    {% elif review[5] == 3 %}
-     <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    {% elif review[5] == 4 %}
-     <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star"></span>
-    {% elif review[5] == 5 %}
-     <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    <span class="fa fa-star" style="color: #ffce1b;"></span>
-    
-    {% else %}
-     <span class="fa fa-star"></span>
-    <span class="fa fa-star" ></span>
-    <span class="fa fa-star" ></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    {% endif %}
-    
-    <br /><b>{{review[4]}}</b>
-  </div>
-</div>
-{% endfor %}
+            <br /><b>{{review[4]}}</b>
+        </div>
+    </div>
+    {% endfor %} {% if reviewsList|length == 0 %}
+    <b class="float-right container" style="font-size:14px;">Sorry, there are no review for this product.</b> {% else %}
+    <a href="#" style="text-decoration: none;" class="float-right container"><b>See more</b></a> {% endif %}
+    <br><br>
 
-{% if reviewsList|length == 0 %}
-  <b class="float-right container" style="font-size:14px;">Sorry, there are no review for this product.</b>
-{% else %}
-<a href="#" style="text-decoration: none;" class="float-right container"><b>See more</b></a>
-{% endif %}
-<br><br>
-
-</div>
-  <div class="pt-5 pb-5 mt-5" style="border-bottom: 5px solid; border-color: #43BE31; overflow: hidden; background-color: black; color: white;">
+    </div>
+    <div class="pt-5 pb-5 mt-5" style="border-bottom: 5px solid; border-color: #43BE31; overflow: hidden; background-color: black; color: white;">
         <form class="">
             <div class="container" style="">
                 <b>Subscribe to our newsletter</b>
@@ -452,32 +445,34 @@ console.log(great)
             <label class="float-right">Made in <a href="#" style="text-decoration: none;">ARID</a> with <img width="18px" src="{{ url_for('static',filename='icons/heart.png')}}"></label>
         </div>
     </div>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-  google.charts.load("current", { packages: ["corechart"] });
-  google.charts.setOnLoadCallback(drawChart);
-  
-  function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-      ["Sentiments", "Percentage"],
-      ["Satisfactory", satisfactory],
-      ["Great", great],
-      ["Very good", very_good],
-      ["Bad", bad],
-      ["Wrost", worst],
-    ]);
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load("current", {
+            packages: ["corechart"]
+        });
+        google.charts.setOnLoadCallback(drawChart);
 
-    var options = {
-      title: "Sentiment Analysis of reviews",
-      is3D: true,
-    };
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ["Sentiments", "Percentage"],
+                ["Satisfactory", satisfactory],
+                ["Great", great],
+                ["Very good", very_good],
+                ["Bad", bad],
+                ["Wrost", worst],
+            ]);
 
-    var chart = new google.visualization.PieChart(
-      document.getElementById("piechart_3d")
-    );
-    chart.draw(data, options);
-  }
-</script>
+            var options = {
+                title: "Sentiment Analysis of reviews",
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(
+                document.getElementById("piechart_3d")
+            );
+            chart.draw(data, options);
+        }
+    </script>
 
 
     <!-- Optional JavaScript -->

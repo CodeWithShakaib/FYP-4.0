@@ -50,15 +50,18 @@
          ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+        
         .css-serial {
-  counter-reset: serial-number;  /* Set the serial number counter to 0 */
-}
-
-.css-serial td:first-child:before {
-  counter-increment: serial-number;  /* Increment the serial number counter */
-  content: counter(serial-number);  /* Display the counter */
-}
-    
+            counter-reset: serial-number;
+            /* Set the serial number counter to 0 */
+        }
+        
+        .css-serial td:first-child:before {
+            counter-increment: serial-number;
+            /* Increment the serial number counter */
+            content: counter(serial-number);
+            /* Display the counter */
+        }
     </style>
 
 </head>
@@ -80,7 +83,9 @@
         <a href="/home" target="_blank"><img class="float-left" style="height: 110px;" src="{{ url_for('static',filename='icons/logo.png')}}"></a>
         <b class="float-right pl-1 pr-1" style="font-size:13px; background-color: red; color: white; border-radius: 50%;">{{HowManyProductsInCart}}</b>
         <a href="/cart"><img class="float-right" style="height: 30px;" src="{{ url_for('static',filename='icons/carticon.png')}}"></a>
-
+        <!-- chatbot Icon -->
+        <a href="/chatbot" class="float-right mr-4" target="_blank" data-toggle="tooltip" data-placement="top" title="Chatbot"><img class="" style="height: 30px;" src="{{ url_for('static',filename='icons/chatbot.png')}}" alt=""></a>
+        <!-- end -->
         <input type="text" class="p-1" style="width:500px; border: none; background-color: #f7f7f7;" placeholder="You can search here" aria-label="Username" aria-describedby="addon-wrapping">
         <a href="/search"><img class="m-1" src="{{ url_for('static',filename='icons/searchicon.png')}}" alt=""></a>
     </div>
@@ -199,7 +204,13 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip({
+                placement: 'top'
+            });
+        });
+    </script>
 </body>
 
 </html>

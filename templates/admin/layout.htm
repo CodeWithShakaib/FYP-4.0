@@ -39,6 +39,7 @@
     </style>
 
 
+
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script type="text/javascript">
@@ -133,7 +134,7 @@
             </a>
 
             <a href="#">
-                <button id="productsButton" onclick="productsFunc()" style="background-color: #191919; width: 100%; height:40px; border: none; color: white; font-weight: bolder;">
+                <button id="productsButton" style="background-color: #191919; width: 100%; height:40px; border: none; color: white; font-weight: bolder;">
               <div class="float-left">
                   <img src="{{url_for('static', filename='icons/adminIcons/products.png')}}"  width="25px" alt="">    
                   Products
@@ -163,7 +164,14 @@
         <div class="col-md-10 " id="dashboard" style="overflow: auto;display:block;">
 
             <h4 style="font-family:Microsoft YaHei; font-weight:bold;color:#222222c0;">Admin Dashboard</h4>
-            <hr>
+            <hr> {% if success == '1' %}
+            <div class="alert alert-primary" role="alert">
+                Product added sucessfully.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
             <div class="m-2">
                 <div class="row">
 
@@ -331,38 +339,39 @@
                             </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form method="post" action="/addProduct" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="inputName" class="addProductFont">Product's Name</label>
-                                            <input type="text" class="form-control" id="inputName" placeholder="Enter name">
+                                            <input type="text" class="form-control" name="productName" id="inputName" placeholder="Enter name">
                                         </div>
                                         <div class="d-flex">
                                             <div class="form-group flex-fill">
                                                 <label for="inputPrice" class="addProductFont">Product's Price</label>
-                                                <input type="text" class="form-control" id="inputPrice" placeholder="Enter price">
+                                                <input type="text" class="form-control" id="inputPrice" name="productPrice" placeholder="Enter price">
                                             </div>
                                             <div class="form-group flex-fill ml-2">
                                                 <label for="inputDiscount" class="addProductFont">Product's Discount </label>
-                                                <input type="text" class="form-control" id="inputDiscount" placeholder="Enter discount">
+                                                <input type="text" class="form-control" id="inputDiscount" name="productDiscount" placeholder="Enter discount">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="productDescription" class="addProductFont">Product's Description</label>
-                                            <textarea class="form-control" id="productDescription" rows="5" placeholder="Enter description"></textarea>
+                                            <textarea class="form-control" id="productDescription" rows="5" name="productDesc" placeholder="Enter description"></textarea>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="productImage" class="addProductFont">Product's Image</label>
-                                            <input type="file" class="form-control-file" style="font-size:14px;" id="productImage">
+                                            <input type="file" class="form-control-file" name="productImage" name="productImage" style="font-size:14px;" id="productImage">
+
                                         </div>
 
                                         <div class="custom-control custom-checkbox custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="favouritInput">
+                                            <input type="checkbox" class="custom-control-input hidden" name="favouritProduct" id="favouritInput">
                                             <label class="custom-control-label" style="font-size:14px;" for="favouritInput">Add to favourit</label>
                                         </div>
 
-                                        <button type="button" style="background-color:#45CE30; color:white;" class="addProductFont btn mb-3 mt-3 float-right">Add</button>
+                                        <button type="submit" style="background-color:#45CE30; color:white;" class="addProductFont btn mb-3 mt-3 float-right">Add</button>
                                     </form>
                                 </div>
 
@@ -370,7 +379,8 @@
                             </div>
                         </div>
                     </div>
-
+                    <!-- end of add products model -->
+                    <!-- Table that shows all products-->
                     <table class="table table-striped">
                         <thead class="thead-dark text-center">
                             <tr>
@@ -385,79 +395,41 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for i in allProducts %}
                             <tr>
                                 <th>
                                     <div class="custom-control custom-checkbox ">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck{{i[0]}}">
                                         <label class="custom-control-label" for="customCheck1"></label>
                                     </div>
                                 </th>
                                 <td>
-                                    <img style="width:120px; " class="m-0" src="{{ url_for('static',filename='img/product-1.jpg')}}" alt="" srcset="">
+                                    <img style="width:120px; " class="m-0" src="{{ url_for('static',filename=i[5])}}" alt="" srcset="">
                                 </td>
-                                <td>Pure Leather Bag</td>
-                                <td>2000 Rs.</td>
-                                <td>Intimate Design, Shockproof Inside , Think Plush Design Soft Scratch Resistant, Fine Workmanship , Excellent Quality, All-Round Protection Of Your Machine.</td>
-                                <td>0 Rs.</td>
+                                <td>{{i[1]}}</td>
+                                <td>{{i[2]}} Rs.</td>
+                                <td>...</td>
+                                <td>{{i[3]}} Rs.</td>
                                 <td>
-                                    <img style="width:20px; " class="" src="{{ url_for('static',filename='icons/tickicon.png')}}" alt="" srcset="">
+                                    {% if i[6] == 1 %}
+                                    <img style="width:20px; " class="" src="{{ url_for('static',filename='icons/tickicon.png')}}" alt="" srcset=""> {% else %}
+
+                                    <img style="width:20px; " class="" src="{{ url_for('static',filename='icons/crossicon.png')}}" alt="" srcset=""> {% endif %}
                                 </td>
                                 <td>
-                                    <a name="" id="" style="" class="" href="#" role="button" data-toggle="modal" data-target="#editProduct"><img style="width:20px; " class="" src="{{ url_for('static',filename='icons/edit.png')}}" alt="" srcset=""></a>
+                                    <a name="" id="{{i[0]}}"  style="" class="" href="" role="button" data-toggle="modal" data-target="#editProduct"><img style="width:20px; " class="" src="{{ url_for('static',filename='icons/edit.png')}}" alt="" srcset=""></a>
                                 </td>
                             </tr>
+                            {% endfor %}
 
-
-                            <tr>
-                                <th>
-                                    <div class="custom-control custom-checkbox ">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                        <label class="custom-control-label" for="customCheck1"></label>
-                                    </div>
-                                </th>
-                                <td>
-                                    <img style="width:120px; " class="m-0" src="{{ url_for('static',filename='img/watches_slider13.png')}}" alt="" srcset="">
-                                </td>
-                                <td>Sky-Dweller</td>
-                                <td>3500 Rs.</td>
-                                <td>This distinctive watch is characterized by its second time zone display on an off-centre disc on the dial...</td>
-                                <td>0 Rs.</td>
-                                <td>
-                                    <img style="width:20px; " class="" src="{{ url_for('static',filename='icons/tickicon.png')}}" alt="" srcset="">
-                                </td>
-                                <td>
-                                    <a name="" id="" style="" class="" href="#" role="button" data-toggle="modal" data-target="#editProduct"><img style="width:20px; " class="" src="{{ url_for('static',filename='icons/edit.png')}}" alt="" srcset=""></a>
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <th>
-                                    <div class="custom-control custom-checkbox ">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                        <label class="custom-control-label" for="customCheck1"></label>
-                                    </div>
-                                </th>
-                                <td>
-                                    <img style="width:120px; " class="m-0" src="{{ url_for('static',filename='img/wallet-1.png')}}" alt="" srcset="">
-                                </td>
-                                <td>Leather brown wallet</td>
-                                <td>1500 Rs.</td>
-                                <td>The modern terms "jacket" and "coat" are often used interchangeably as terms, although the term "coat" tends to be used to refer to longer garments.</td>
-                                <td>0 Rs.</td>
-                                <td>
-                                    <img style="width:20px; " class="" src="{{ url_for('static',filename='icons/tickicon.png')}}" alt="" srcset="">
-                                </td>
-                                <td>
-                                    <a name="" id="" style="" class="" href="#" role="button" data-toggle="modal" data-target="#editProduct"><img style="width:20px; " class="" src="{{ url_for('static',filename='icons/edit.png')}}" alt="" srcset=""></a>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
+
+                    <!-- end show products table -->
                 </div>
 
 
-                <!--Add edit Modal -->
+                <!--Product edit Modal -->
                 <div class="modal fade bd-example-modal-lg" style="" id="editProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content modal-lg">
@@ -468,35 +440,35 @@
                             </button>
                             </div>
                             <div class="modal-body">
-                                <form>
+                                <form method="post" action="/editProduct" enctype="multipart/form-data">
                                     <div class="form-group">
-                                        <label for="inputName" class="addProductFont">Product's Name</label>
-                                        <input type="text" class="form-control" id="inputName" placeholder="Enter name">
+                                        <label for="editProducName" class="addProductFont">Product's Name</label>
+                                        <input type="text" class="form-control" id="editProducName" name="editProducName" placeholder="Enter name">
                                     </div>
                                     <div class="d-flex">
                                         <div class="form-group flex-fill">
-                                            <label for="inputPrice" class="addProductFont">Product's Price</label>
-                                            <input type="text" class="form-control" id="inputPrice" placeholder="Enter price">
+                                            <label for="editProducPrice" class="addProductFont">Product's Price</label>
+                                            <input type="text" class="form-control" id="editProducPrice" name="editProducPrice" placeholder="Enter price">
                                         </div>
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="inputDiscount" class="addProductFont">Product's Discount </label>
-                                            <input type="text" class="form-control" id="inputDiscount" placeholder="Enter discount">
+                                            <label for="editProducDiscount" class="addProductFont">Product's Discount </label>
+                                            <input type="text" class="form-control" id="editProducDiscount" name="editProducDiscount" placeholder="Enter discount">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="productDescription" class="addProductFont">Product's Description</label>
-                                        <textarea class="form-control" id="productDescription" rows="5" placeholder="Enter description"></textarea>
+                                        <label for="editProductDescription" class="addProductFont">Product's Description</label>
+                                        <textarea class="form-control" id="editProductDescription" name="editProductDescription" rows="5" placeholder="Enter description"></textarea>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="productImage" class="addProductFont">Product's Image</label>
-                                        <input type="file" class="form-control-file" style="font-size:14px;" id="productImage">
+                                        <input type="file" class="form-control-file" style="font-size:14px;" id="editProductImage" name="editProductImage">
                                     </div>
 
                                     <div class="custom-control custom-checkbox custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="favouritInput">
-                                        <label class="custom-control-label" style="font-size:14px;" for="favouritInput">Add to favourit</label>
+                                        <input type="checkbox" class="custom-control-input" id="editProductFavourit" name="editProductFavourit">
+                                        <label class="custom-control-label" style="font-size:14px;" for="editProductFavourit">Add to favourit</label>
                                     </div>
 
                                     <button type="button" style="background-color:#F37E00; color:white;" class="addProductFont btn mb-3 mt-3 float-right">Edit</button>
@@ -507,7 +479,7 @@
                         </div>
                     </div>
                 </div>
-                <!--- end model -->
+                <!--- end of edit products model -->
 
 
 
@@ -717,6 +689,8 @@
 
                 }
 
+
+
                 function ordersFunc() {
                     document.getElementById('dashboard').style = "display:none;";
                     document.getElementById('products').style = "display:none;";
@@ -741,10 +715,55 @@
 
 
                 }
+
+
                 $(document).ready(function() {
                     $('[data-toggle="tooltip"]').tooltip();
+                    allProductsData = {{allProducts | safe}}
+
+
+
                 });
+
+                function func() {
+                    //var id = document.getElementsByClassName("anchors")[0].id;
+                    var item;
+                    var currentArray = []
+                    allProductsData.forEach(function(item) {
+                        if (item[0] == 1) {
+                            currentArray = item;
+                        }
+                    });
+                    let id = currentArray[0]
+                    let name = currentArray[1]
+                    let price = currentArray[2]
+                    let discount = currentArray[3]
+                    let desc = currentArray[4]
+                    let image = currentArray[5]
+                    let favourit = currentArray[6]
+
+                    // document.getElementById("editProductName").value = name;
+                    // document.getElementById("editProductPrice").value = price;
+                    // document.getElementById("editProductDiscount").value = discount;
+                    // document.getElementById("editProductDesc").value = desc;
+                    // document.getElementById("editProductImage").value = image;
+                    // document.getElementById("editProductFavourit").value = favourit;
+                    console.log("Id" ,name)
+                    console.log("Name ",name)
+                    console.log("Price ",price)
+                    console.log("Discount",discount)
+                    console.log("desc",desc)
+                    console.log("Image",image)
+                    console.log("favourit",favourit)
+
+
+                }
+
+                document.getElementById("productsButton").addEventListener("click", productsFunc);
+
+                document.getElementById("productsButton").addEventListener("click", func);
             </script>
+
 
 </body>
 

@@ -2,7 +2,10 @@ from flask import Flask, render_template, redirect, url_for, request, flash,json
 import mysql.connector
 import datetime
 from datetime import date
+from werkzeug.utils import secure_filename
 import sentiment_analyser
+import os
+import json
 percentageDic = {}
 mydb = mysql.connector.connect(
     host="localhost",
@@ -429,6 +432,15 @@ def CustomerDashboard():
 
     return render_template('CustomerDashboard.html',userID=userexist,topRatedProducts=RatedProductData,dates=dates,nonDeliveredProducts=nonDeliveredproducts, FavouritProduct=myresult,fullName=fullName,purchededProducts = products)
 
+# Chatbot logic here
+@app.route('/chatbot')
+def chatbot():
+    return render_template("chatbot.html")
+
+# end 
+
+
+
 @app.route('/pd/<string:id>' , methods=["POST", "GET"])
 def productDetail(id):
     # print(userexist)
@@ -596,7 +608,50 @@ def write_review(id):
 
 @app.route('/admin')
 def admin():
-    return render_template('admin/layout.htm')
+    
+    mycursor = mydb.cursor()
+    sql = "SELECT `id`,`name`, `price`, `discount`, `description`, `img1`, `favourite` FROM `products` "
+    mycursor.execute(sql)
+    allProducts = mycursor.fetchall()
+
+    for i in range(0,len(allProducts)):
+        allProducts[i] = list(allProducts[i])
+
+    print(allProducts)
+    
+    
+    
+    return render_template('admin/layout.htm', allProducts = allProducts)
+
+@app.route('/addProduct', methods=["POST", "GET"])
+def addProduct():
+    if request.method == 'POST':
+        req = request.form
+        productName = req.get('productName')
+        productPrice = req.get('productPrice')
+        productDiscount = req.get("productDiscount")
+        productDesc = req.get("productDesc")
+        productImage =request.files["productImage"]
+        favouritProduct = req.get("favouritProduct")
+
+        
+        productImageFileName = 'img/' + productImage.filename
+
+        if favouritProduct == 'on':
+            favouritProduct = 1
+        else:
+            favouritProduct = 0
+
+        print(productDesc)
+
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO `products`(`name`, `price`, `discount`, `description`, `img1`, `favourite`) VALUES ('{}','{}','{}','{}','{}',{}) ".format(productName,productPrice,productDiscount,productDesc,productImageFileName,favouritProduct)
+        mycursor.execute(sql)
+        mydb.commit()
+        productImage.save(os.path.join(os.getcwd()+'/static/img',secure_filename(productImage.filename)))
+        
+
+        return redirect(url_for('admin'))
 
 # @app.route('/_get_current_user')
 # def get_current_user():
